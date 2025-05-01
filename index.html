@@ -11,7 +11,7 @@
       // Uncomment ONE of these depending on what you're testing:
       // const url = 'questions.json'; // ✅ For local file
       const url =
-        "https://cors-anywhere.herokuapp.com/https://opentdb.com/api.php?amount=5"; // ✅ For live API
+        'https://cors-anywhere.herokuapp.com/https://opentdb.com/api.php?amount=5'; // ✅ For live API
 
       fetch(url)
         .then((response) => {
@@ -21,17 +21,17 @@
           return response.json();
         })
         .then((data) => {
-          console.log("API Response:", data); // Debug in console
-          document.getElementById("output").textContent = JSON.stringify(
+          console.log('API Response:', data); // Debug in console
+          document.getElementById('output').textContent = JSON.stringify(
             data,
             null,
-            2
+            2,
           );
         })
         .catch((error) => {
-          console.error("Fetch error:", error); // Debug in console
-          document.getElementById("output").textContent =
-            "Error: " + error.message;
+          console.error('Fetch error:', error); // Debug in console
+          document.getElementById('output').textContent =
+            'Error: ' + error.message;
         });
     </script>
   </body>
