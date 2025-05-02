@@ -25,21 +25,23 @@ const questionList = [
   },
 ];
 
-const startButton = document.getElementById('start-btn');
-const nextButton = document.getElementById('next-btn');
-const questionContainerElement = document.getElementById('question-container');
+const startButton = document.getElementById('startBtn');
+const nextButton = document.getElementById('nextBtn');
+
+const questionContainerElement = document.getElementById('questionContainer');
 const questionElement = document.getElementById('question');
-const answerButtonsElement = document.getElementById('answer-buttons');
+const answerButtonsElement = document.getElementById('answerButtons');
 
 let currentQuestionIndex;
 
-// function startGame() {
-//   startButton.classList.add('hide');
-//   currentQuestionIndex = 0;
-//   questionContainerElement.classList.remove('hide');
-// }
+const startGame = () => {
+  startButton.classList.add('hide');
+  currentQuestionIndex = 0;
+  questionContainerElement.classList.remove('hide');
+  setNextQuestion();
+};
 
-function showQuestion(item) {
+const showQuestion = (item) => {
   questionElement.innerText = item.question;
   item.answers.forEach((answer) => {
     const button = document.createElement('button');
@@ -49,69 +51,46 @@ function showQuestion(item) {
       button.dataset.correct = true;
     }
 
+    button.addEventListener('click', selectAnswer);
     answerButtonsElement.appendChild(button);
   });
-}
+};
 
-function setNextQuestion() {
+const setNextQuestion = () => {
+  resetState();
   showQuestion(questionList[currentQuestionIndex]);
-}
+};
 
-function startGame() {
-  startButton.classList.add('hide');
-  currentQuestionIndex = 0;
-  questionContainerElement.classList.remove('hide');
-  setNextQuestion();
-}
-
-function setStatusClass(element) {
+const setStatusClass = (element) => {
   if (element.dataset.correct) {
     element.classList.add('color-correct');
   } else {
     element.classList.add('color-wrong');
   }
-}
+};
 
-function selectAnswer() {
+const selectAnswer = () => {
   Array.from(answerButtonsElement.children).forEach((button) => {
     setStatusClass(button);
   });
+
   if (questionList.length > currentQuestionIndex + 1) {
     nextButton.classList.remove('hide');
   } else {
     startButton.innerText = 'Restart';
     startButton.classList.remove('hide');
   }
-}
+};
 
-function showQuestion(question) {
-  questionElement.innerText = question.question;
-  question.answers.forEach((answer) => {
-    const button = document.createElement('button');
-    button.innerText = answer.text;
-    if (answer.correct) {
-      button.dataset.correct = true;
-    }
-    button.addEventListener('click', selectAnswer);
-    answerButtonsElement.appendChild(button);
-  });
-}
-
-nextButton.addEventListener('click', () => {
-  currentQuestionIndex++;
-  setNextQuestion();
-});
-
-function resetState() {
+const resetState = () => {
   nextButton.classList.add('hide');
   while (answerButtonsElement.firstChild) {
     answerButtonsElement.removeChild(answerButtonsElement.firstChild);
   }
-}
-
-function setNextQuestion() {
-  resetState();
-  showQuestion(questionList[currentQuestionIndex]);
-}
+};
 
 startButton.addEventListener('click', startGame);
+nextButton.addEventListener('click', () => {
+  currentQuestionIndex++;
+  setNextQuestion();
+});
