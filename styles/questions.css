@@ -1,0 +1,74 @@
+/* Mobile First (pantallas pequeñas por defecto) */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f3f3f3;
+}
+
+/* @media para pantallas grandes */
+@media (min-width: 768px) {
+  #questions-card {
+    padding: 40px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Diseño card */
+
+#questions-card {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 2px 2px 6px rgba(24, 24, 24, 0.25);
+}
+
+/* Diseño  del Div de cards respuestas */
+
+#divOpciones {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Diseño cards respuestas */
+
+.opcion {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+}
+
+/* Animación / hover opciones */
+.opcion:hover {
+  background-color: rgb(254, 255, 175);
+}
+
+/* Diseño botón */
+
+#siguienteBtn {
+  background-color: rgb(170, 241, 241);
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Animación / hover botón */
+#siguienteBtn:hover {
+  background-color: rgb(132, 218, 218);
+}
