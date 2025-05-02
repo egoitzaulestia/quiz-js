@@ -114,56 +114,6 @@ function decodeHtml(html) {
   return txt.value;
 }
 
-// // const rawQuestionT = quizQuestions.results[1].question;
-// // const decodedQuestionT = decodeHtml(rawQuestionT);
-// // console.log(decodedQuestionT); // Shows the cleaned-up version
-
-// // Questios Data = Objeto con todas las preguntas
-
-// // Objeto question con todos sus parametros
-// const data = quizQuestions.results;
-// console.log(data); // Debugging: Imprimimos tipo de pregunta por consola
-
-// // Question Card:
-
-// // Tipo de pregunta (multiple, boolean, etc)
-// const questionType = data[0].type;
-// console.log(questionType); // Debugging: Imprimimos tipo de pregunta por consola
-
-// // Nivel de dificultad de la pregunta
-// const questionDifficulty = data[0].difficulty;
-// console.log(questionDifficulty); // Debugging: Imprimimos dificulta por consola
-
-// // Categoría de la pregunta
-// const questionCategory = data[0].category;
-// console.log(questionCategory);
-
-// // Pregunta:
-// // // Creamos elemento <h2> para que contenga la pregunta
-// // const question = document.createElement('h2');
-// // Recuperamos la pregunta en modo 'raw'
-// const rawQuestion = data[0].question;
-// // Decodificamos elemento HTML de la pregunta (si es que los lleva)
-// const decodedQuestion = decodeHtml(rawQuestion);
-// // Asignamos el el valor de la pregunta (str) al elemento question
-
-// const questionText = decodedQuestion;
-// console.log(questionText); // Debugging: Imprimimos pregunta
-
-// // Respuestas:
-// // Respuesta correcta
-// const correctAnswer = data[0].correct_answer;
-// // Array con la/las respuesta/s incorrecta/s
-// const incorrectAnswers = data[0].incorrect_answers;
-// // Cremaos el array 'answers' asignandole el array de 'incorrectAnswers'
-// const answers = incorrectAnswers;
-// // Añadimos la respuesta correcta al array 'answers'
-// answers.push(correctAnswer);
-// // Array con todas las respuestas posibles
-// // const answers = data[0].incorrect_answers;
-// // answers.push(data[0].correct_answer);
-// console.log(answers);
-
 // Formato de referencia para el objeto question: https://github.com/TheBridge-FullStackDeveloper/proyectos-quiz-resurrected
 
 const QUESTION_reference = {
@@ -178,20 +128,17 @@ const QUESTION_reference = {
   correct: 'mago',
 };
 
-// // Formato del objeto questionData, con toda la información de cada pregunta:
-// const questionData = {
-//   type: `${questionType}`, // Tipo de pregunta
-//   difficulty: `${questionDifficulty}`, // Dificultad de la pregunta
-//   category: `${questionCategory}`, // Categoría de la pregunta
-//   question: `${questionText}`, // Texto de la pregunta
-//   answer: `${answers}`, // Array con las respuestas de la pregunta
-//   correct: correctAnswer, // Respuesta correcta a la pregunta
-// };
-
-// console.log(questionData);
-
 // Objeto question con todos sus parametros
 const data = quizQuestions.results;
+
+// Creamos función para mezclar las preguntas
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // ✅ Correct swap
+  }
+  return array;
+};
 
 data.forEach((question) => {
   // console.log(question); // Debugging: Imprimimos tipo de pregunta por consola
@@ -225,10 +172,16 @@ data.forEach((question) => {
   const correctAnswer = question.correct_answer;
   // Array con la/las respuesta/s incorrecta/s
   const incorrectAnswers = question.incorrect_answers;
-  // Cremaos el array 'answers' asignandole el array de 'incorrectAnswers'
-  const answers = incorrectAnswers;
-  // Añadimos la respuesta correcta al array 'answers'
-  answers.push(correctAnswer);
+
+  // Cremaos el array 'answers' mapeando el array de 'incorrectAnswers' y retornando un array de objtos
+  const answers = incorrectAnswers.map((answer) => {
+    return { label: answer, value: 'incorrect' };
+  });
+  answers.push({ label: correctAnswer, value: 'correct' });
+
+  // Creamos una variable con el array de las preguntas mezcladas
+  const shuffledAnswers = shuffleArray(answers);
+  // console.log(answers);
 
   // Formato del objeto questionData, con toda la información de cada pregunta:
   const questionData = {
@@ -236,7 +189,7 @@ data.forEach((question) => {
     difficulty: `${questionDifficulty}`, // Dificultad de la pregunta -> str
     category: `${questionCategory}`, // Categoría de la pregunta -> str
     question: `${questionText}`, // Texto de la pregunta -> str
-    answer: answers, // Array con las respuestas de la pregunta -> obj (array)
+    answer: shuffledAnswers, // Array con las respuestas de la pregunta -> obj (array)
     correct: `${correctAnswer}`, // Respuesta correcta a la pregunta -> str
   };
 
