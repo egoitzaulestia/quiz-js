@@ -4,8 +4,6 @@
 // - Pintar la pregunta 1 desde un array local.
 // - Marcar la opción elegida (clase CSS).
 
-// Creamos un array de prueba para pintarlo en HTML
-
 const quizQuestions = {
   response_code: 0,
   results: [
@@ -26,6 +24,81 @@ const quizQuestions = {
       correct_answer: 'True',
       incorrect_answers: ['False'],
     },
+    {
+      type: 'multiple',
+      difficulty: 'medium',
+      category: 'Geography',
+      question: 'Which country has three capital cities?',
+      correct_answer: 'South Africa',
+      incorrect_answers: ['Somalia', 'China', 'United Kingdom'],
+    },
+    {
+      type: 'multiple',
+      difficulty: 'hard',
+      category: 'Science: Computers',
+      question:
+        'Lenovo acquired IBM&#039;s personal computer division, including the ThinkPad line of laptops and tablets, in what year?',
+      correct_answer: '2005',
+      incorrect_answers: ['1999', '2002', '2008'],
+    },
+    {
+      type: 'multiple',
+      difficulty: 'easy',
+      category: 'Entertainment: Video Games',
+      question:
+        'Gordon Freeman is said to have burnt and destroyed what food in the break room microwave?',
+      correct_answer: 'Casserole',
+      incorrect_answers: ['Sub Sandwich', 'Chicken Soup', 'Pepperoni Pizza'],
+    },
+    {
+      type: 'multiple',
+      difficulty: 'medium',
+      category: 'General Knowledge',
+      question:
+        'Which of these is the name of a Japanese system of alternative medicine, literally meaning &quot;finger pressure&quot;?',
+      correct_answer: 'Shiatsu',
+      incorrect_answers: ['Ukiyo', 'Majime', 'Ikigai'],
+    },
+    {
+      type: 'multiple',
+      difficulty: 'easy',
+      category: 'Art',
+      question:
+        'Which Van Gogh painting depicts the view from his asylum in Saint-R&eacute;my-de-Provence in southern France?',
+      correct_answer: 'The Starry Night',
+      incorrect_answers: [
+        'Wheatfields with Crows',
+        'The Sower with Setting Sun',
+        'The Church at Auvers',
+      ],
+    },
+    {
+      type: 'multiple',
+      difficulty: 'hard',
+      category: 'Entertainment: Television',
+      question:
+        'Prior to working at Wizards of the Coast, &quot;Mark Rosewater&quot; was a writer for which show?',
+      correct_answer: 'Roseanne',
+      incorrect_answers: ['Boy Meets World', 'The X-Files', 'NYPD Blue'],
+    },
+    {
+      type: 'multiple',
+      difficulty: 'medium',
+      category: 'Science &amp; Nature',
+      question:
+        'Which Swiss psychologist is synonymous with the concepts of introvert and extrovert personalities?',
+      correct_answer: 'Carl Jung',
+      incorrect_answers: ['Jean Piaget', 'Alice Miller', 'Hermann Rorschach'],
+    },
+    {
+      type: 'multiple',
+      difficulty: 'medium',
+      category: 'History',
+      question:
+        'In what dialogue did Socrates defend himself to the court of Athens? ',
+      correct_answer: 'The Apology',
+      incorrect_answers: ['The Euthyphro', 'The Laws', 'The Republic'],
+    },
   ],
 };
 
@@ -41,20 +114,131 @@ function decodeHtml(html) {
   return txt.value;
 }
 
-const rawQuestion = quizQuestions.results[1].question;
-const decodedQuestion = decodeHtml(rawQuestion);
-console.log(decodedQuestion); // Shows the cleaned-up version
+// // const rawQuestionT = quizQuestions.results[1].question;
+// // const decodedQuestionT = decodeHtml(rawQuestionT);
+// // console.log(decodedQuestionT); // Shows the cleaned-up version
 
-// Question Card:
+// // Questios Data = Objeto con todas las preguntas
 
-// Creamos elemento <h2> para que contenga la pregunta
-const question = document.createElement('h2');
-// // const data = quizQuestions.results[0].question;
-question.innerText = quizQuestions.results[0].question;
-console.log(question);
+// // Objeto question con todos sus parametros
+// const data = quizQuestions.results;
+// console.log(data); // Debugging: Imprimimos tipo de pregunta por consola
 
-const questionType = quizQuestions.results[0].type;
+// // Question Card:
 
-const answers = quizQuestions.results[0].incorrect_answers;
-answers.push(quizQuestions.results[0].correct_answer);
-console.log(answers);
+// // Tipo de pregunta (multiple, boolean, etc)
+// const questionType = data[0].type;
+// console.log(questionType); // Debugging: Imprimimos tipo de pregunta por consola
+
+// // Nivel de dificultad de la pregunta
+// const questionDifficulty = data[0].difficulty;
+// console.log(questionDifficulty); // Debugging: Imprimimos dificulta por consola
+
+// // Categoría de la pregunta
+// const questionCategory = data[0].category;
+// console.log(questionCategory);
+
+// // Pregunta:
+// // // Creamos elemento <h2> para que contenga la pregunta
+// // const question = document.createElement('h2');
+// // Recuperamos la pregunta en modo 'raw'
+// const rawQuestion = data[0].question;
+// // Decodificamos elemento HTML de la pregunta (si es que los lleva)
+// const decodedQuestion = decodeHtml(rawQuestion);
+// // Asignamos el el valor de la pregunta (str) al elemento question
+
+// const questionText = decodedQuestion;
+// console.log(questionText); // Debugging: Imprimimos pregunta
+
+// // Respuestas:
+// // Respuesta correcta
+// const correctAnswer = data[0].correct_answer;
+// // Array con la/las respuesta/s incorrecta/s
+// const incorrectAnswers = data[0].incorrect_answers;
+// // Cremaos el array 'answers' asignandole el array de 'incorrectAnswers'
+// const answers = incorrectAnswers;
+// // Añadimos la respuesta correcta al array 'answers'
+// answers.push(correctAnswer);
+// // Array con todas las respuestas posibles
+// // const answers = data[0].incorrect_answers;
+// // answers.push(data[0].correct_answer);
+// console.log(answers);
+
+// Formato de referencia para el objeto question: https://github.com/TheBridge-FullStackDeveloper/proyectos-quiz-resurrected
+
+const QUESTION_reference = {
+  name: 'elminster',
+  label: '¿Cual es el nombre mas comun del mundo?',
+  answers: [
+    { label: 'Un bardo', value: 'bardo' },
+    { label: 'Un mercader', value: 'mercader' },
+    { label: 'Un mago', value: 'mago' },
+    { label: 'Un marinero', value: 'marinero' },
+  ],
+  correct: 'mago',
+};
+
+// // Formato del objeto questionData, con toda la información de cada pregunta:
+// const questionData = {
+//   type: `${questionType}`, // Tipo de pregunta
+//   difficulty: `${questionDifficulty}`, // Dificultad de la pregunta
+//   category: `${questionCategory}`, // Categoría de la pregunta
+//   question: `${questionText}`, // Texto de la pregunta
+//   answer: `${answers}`, // Array con las respuestas de la pregunta
+//   correct: correctAnswer, // Respuesta correcta a la pregunta
+// };
+
+// console.log(questionData);
+
+// Objeto question con todos sus parametros
+const data = quizQuestions.results;
+
+data.forEach((question) => {
+  // console.log(question); // Debugging: Imprimimos tipo de pregunta por consola
+
+  // Question Card:
+
+  // Tipo de pregunta (multiple, boolean, etc)
+  const questionType = question.type;
+  // console.log(questionType); // Debugging: Imprimimos tipo de pregunta por consola
+
+  // Nivel de dificultad de la pregunta
+  const questionDifficulty = question.difficulty;
+  // console.log(questionDifficulty); // Debugging: Imprimimos dificulta por consola
+
+  // Categoría de la pregunta
+  const questionCategory = question.category;
+  // console.log(questionCategory);
+
+  // Pregunta:
+  // Recuperamos la pregunta en modo 'raw'
+  const rawQuestion = question.question;
+  // Decodificamos elemento HTML de la pregunta (si es que los lleva)
+  const decodedQuestion = decodeHtml(rawQuestion);
+  // Asignamos el el valor de la pregunta (str) al elemento question
+
+  const questionText = decodedQuestion;
+  // console.log(questionText); // Debugging: Imprimimos pregunta
+
+  // Respuestas:
+  // Respuesta correcta
+  const correctAnswer = question.correct_answer;
+  // Array con la/las respuesta/s incorrecta/s
+  const incorrectAnswers = question.incorrect_answers;
+  // Cremaos el array 'answers' asignandole el array de 'incorrectAnswers'
+  const answers = incorrectAnswers;
+  // Añadimos la respuesta correcta al array 'answers'
+  answers.push(correctAnswer);
+
+  // Formato del objeto questionData, con toda la información de cada pregunta:
+  const questionData = {
+    type: `${questionType}`, // Tipo de pregunta -> str
+    difficulty: `${questionDifficulty}`, // Dificultad de la pregunta -> str
+    category: `${questionCategory}`, // Categoría de la pregunta -> str
+    question: `${questionText}`, // Texto de la pregunta -> str
+    answer: answers, // Array con las respuestas de la pregunta -> obj (array)
+    correct: `${correctAnswer}`, // Respuesta correcta a la pregunta -> str
+  };
+
+  console.log(questionData);
+});
