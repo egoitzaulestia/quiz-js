@@ -1,3 +1,5 @@
+// questions.js
+
 // Preguntas
 const dataQuiz = {
   response_code: 0,
@@ -97,25 +99,14 @@ const dataQuiz = {
   ],
 };
 
-const card = document.getElementById('questionCard');
-
-// Variable que almacena la puntuación del juego
-let score = 0;
-
-let currentAnswerButtonsDiv;
-
-// Función para formatear elemento &quot; y &#039; en texto HTML proviente de las preguntas
-// Ejemplo: 'There is an island in Japan called Ōkunoshima, A.K.A. &quot;Rabbit Island&quot;' /// --> &quot; = Comillas dobles
-// Resultado en texto HTML: 'There is an island in Japan called Ōkunoshima, A.K.A. "Rabbit Island"' /// <-- Comillas dobles!
-
+// Función para decodificar entidades HTML (&quot;, &#039;) en texto legible
 function decodeHtml(html) {
   const txt = document.createElement('textarea');
   txt.innerHTML = html;
-
   return txt.value;
 }
 
-// Creamos función para mezclar las preguntas
+// Función para mezclar un array in-place usando Fisher-Yates
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -124,7 +115,7 @@ const shuffleArray = (array) => {
   return array;
 };
 
-// Función para formatear el JSON recibidio para crear un array con todas las preguntas y con toda la metadata de cada una de ellas (parametros de cada pregunta)
+// Fucnión para preparar cada pregunta: decodifica texto, crea array de respuestas y lo mezcla
 const formatQuizQuestions = (data) => {
   // Objeto quizQuestions con todas las preguntas y sus parametros
   const quizQuestions = data.results;
@@ -181,7 +172,7 @@ const formatQuizQuestions = (data) => {
       category: questionCategory, // Categoría de la pregunta -> str
       question: questionText, // Texto de la pregunta -> str
       answers: shuffledAnswers, // Array con las respuestas de la pregunta -> obj (array)
-      correct: correctAnswer, // Respuesta correcta a la pregunta -> str
+      // correct: correctAnswer, // Respuesta correcta a la pregunta -> str
     };
 
     // console.log(questionData);
@@ -191,63 +182,62 @@ const formatQuizQuestions = (data) => {
   return quizQuestionsArray;
 };
 
-// Obtenemos el array con todas las preguntas y con toda la metadata de cada una de ellas (parametros de cada pregunta)
-const formatedQuestions = formatQuizQuestions(dataQuiz);
-// console.log(formatedQuestions[0]);
+// const card = document.getElementById('questionCard');
 
-const questionCardContainerElement = document.getElementById(
-  'questionCardContainer',
-);
+console.log('questions2.js');
+
+// Variables de estado:
+const formatedQuestions = formatQuizQuestions(dataQuiz); // Obtenemos el array con todas las preguntas y con toda la metadata de cada una de ellas (parametros de cada pregunta)
+let score = 0;
+let currentQuestionIndex = 0;
+
+let currentAnswerButtonsDiv;
+
+// Referencias al DOM
 const questionCardHtml = document.getElementById('questionCard');
-
-// Botones de Next y Restart
 const nextButton = document.getElementById('nextBtn');
 const restartBtn = document.getElementById('restartBtn');
 const showResultsBtn = document.getElementById('showResultsBtn');
 
 // let currentQuestionIndex;
 
-// Función para que se incializar el cuestionario (SIN TERMINAR)
+// Función para inciar el quiz: oculta botones y muestra la primera pregunta
 const startQuiz = () => {
-  // nextButton.classList.add('hide');
+  score = 0;
   currentQuestionIndex = 0;
+  nextButton.classList.add('hid');
+  restartBtn.classList.add('hide');
+  showResultsBtn.classList.add('hide');
   questionCardHtml.classList.remove('hide');
-  // showQuestion(formatedQuestions[currentQuestionIndex]);
-
   setNextQuestion();
 };
 
-// Función para mostrar preguntas (SIN TERMINAR)
+// Función para limpiar la tarjeta y mostrar la pregunta + sus opciones
 const showQuestion = (item) => {
+  // Contenedor de la pregunta
   const divQuestionHtml = document.createElement('div');
   const questionTextHtml = document.createElement('h2');
   questionTextHtml.innerText = item.question;
-
   divQuestionHtml.appendChild(questionTextHtml);
 
+  // Contenedor de botones de respuesta
   const divAnswersButtons = document.createElement('div');
-  currentAnswerButtonsDiv = divAnswersButtons;
+  currentAnswerButtonsDiv = divAnswersButtons; // ????
   item.answers.forEach((answer) => {
-    const answerButton = document.createElement('button');
-    answerButton.classList.add('option');
-    answerButton.innerText = answer.label;
+    const btn = document.createElement('button');
+    btn.classList.add('option');
+    btn.innerText = answer.label;
 
     if (answer.value) {
-      answerButton.dataset.value = true;
+      btn.dataset.value = true;
     }
 
-    answerButton.addEventListener('click', () => {
-      selectAnswer(divAnswersButtons);
-      console.log(answerButton.innerText);
-
-      // Sie el uduario acierta la pregunta se suma 1 punto
-      if (answer.value) {
-        score++;
-      }
-      // console.log(`Score: ${score}`);
+    btn.addEventListener('click', () => {
+      selectAnswer(divAnswersButtons, answer.value);
+      console.log(btn.innerText);
     });
 
-    divAnswersButtons.appendChild(answerButton);
+    divAnswersButtons.appendChild(btn);
   });
 
   console.log(`Score: ${score}`);
@@ -256,17 +246,19 @@ const showQuestion = (item) => {
   questionCardHtml.appendChild(divAnswersButtons);
 };
 
-// Función para mostrar la siguiente pregunta (SIN TERMINAR)
-// const setNextQuestion = () => {
-//   resetState(currentAnswerButtonsDiv);
-//   showQuestion(formatedQuestions[currentQuestionIndex]);
-// };
-
+// Función para pasas a la siguiente pregunta tras resetear el estado
 const setNextQuestion = () => {
   resetState();
   showQuestion(formatedQuestions[currentQuestionIndex]);
 };
 
+// Función que quita todo el contenido previo para preparar la siguiente pregunta
+const resetState = () => {
+  nextButton.classList.add('hide');
+  questionCardHtml.innerHTML = '';
+};
+
+// Fucnión que aplica clase según correcta/incorrecta
 const setStatusClass = (element) => {
   if (element.dataset.value) {
     element.classList.add('color-correct');
@@ -275,68 +267,55 @@ const setStatusClass = (element) => {
   }
 };
 
-const selectAnswer = (setOfAnswers) => {
-  Array.from(setOfAnswers.children).forEach((button) => {
-    setStatusClass(button);
+// Función que maneja la selección de respuesta
+const selectAnswer = (answerContainer, isCorrect) => {
+  // Si la respuesta es correcta, suma punto
+  if (isCorrect) score++;
+
+  // Marca toda las opciones según su valor
+  Array.from(answerContainer.children).forEach((btn) => {
+    setStatusClass(btn);
+    btn.disabled = true; // evita re-click
   });
 
-  if (formatedQuestions.length > currentQuestionIndex + 1) {
+  // Si quedan preguntas, muestra "Next", si no, muestra botones restart y resultados
+  if (currentQuestionIndex < formatedQuestions.length - 1) {
     nextButton.classList.remove('hide');
   } else {
-    // NOTA: Hay que mirar si lo hacemos así o no
-    // document.location.href = '/results.html';
     restartBtn.classList.remove('hide');
     showResultsBtn.classList.remove('hide');
 
+    // Actualiza el score en localStorage para el jugador actual
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const currentId = parseInt(localStorage.getItem('currentPlayerId'), 10);
+    const idx = users.findIndex((u) => u.playerId === currentId);
+    if (idx !== -1) {
+      users[idx].playerScore = score;
+      users[idx].gameEndDate = new Date().toString();
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+
+    localStorage.removeItem('currentPlayerId');
     localStorage.setItem('score', score);
   }
 };
 
-// NO BORRAR
-// const resetState = (divAnswersButtons) => {
-//   nextButton.classList.add('hide');
-
-//   while (divAnswersButtons.firstChild) {
-//     divAnswersButtons.removeChild(divAnswersButtons.firstChild);
-//   }
-// };
-
-const resetState = () => {
-  nextButton.classList.add('hide');
-  // Limpia todo — (question + answers) — para mostrar la siguiente pregunta y las respuestas
-  questionCardHtml.innerHTML = '';
-};
-
-// NO BORRAR
-// const resetState = (divAnswersButtons) => {
-//   nextButton.classList.add('hide');
-//   if (!divAnswersButtons) return;
-
-//   while (divAnswersButtons.firstChild) {
-//     divAnswersButtons.removeChild(divAnswersButtons.firstChild);
-//   }
-// };
-
-// Se incializa el cuestionario
-startQuiz();
+// Listeners de botones:
 
 nextButton.addEventListener('click', () => {
   currentQuestionIndex++;
   setNextQuestion();
 });
 
-// AINHOA
-
 // Esto hace que al clicar en el botón "ver resultados" se redirija al usuario a la página html results.
-
 showResultsBtn.addEventListener('click', () => {
   document.location.href = '/results.html';
 });
 
 // Esto hace que al clicar en el botón "volver a empezar" se redirija al usuario a la página html home.
-
 restartBtn.addEventListener('click', () => {
   document.location.href = '/home.html';
 });
 
-///////////////////////////
+// Arrancamos el quiz automáticamente al cargar la página
+startQuiz();

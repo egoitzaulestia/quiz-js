@@ -1,3 +1,5 @@
+// results.js
+
 // Recuperamos el botón de la tarjeta de la página Results
 
 const newGameBtn = document.getElementById('newGameBtn');

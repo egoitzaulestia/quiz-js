@@ -1,76 +1,62 @@
+// home.js
+
 // Variable con la dirección de la URL de questions.html
 const urlQuestions = '/questions.html';
 
-// // Variable que utilizaremos para...
-// const userDataBase = [];
-
-// // Incializamos el Id en 1
-// let playerId = 1;
-// const gameDate = ''; // Cuando le demos a COMENZAR JUEGO, lo activaremos ---> new Date().toString()
-
 // // Recuperamos el id del formulario donde el usuario mete su nombre y le añadimos un evento para prevenir fallos. Luego cogemos el input que se encuentra dentro del formulario con "playerForm.querySelector('input')" y recogemos el valor introducido y lo asignamos a la variable playerName. Después nos aseguramos de que si el playerName esta vacío (!), haga return para que el usuario rellene el campo y si el campo está rellenado guardamos el valor "playerName" en el local storage para despues redirigir al usuario a questions.html.
 
+// Formulario de inicio de juego y elemento para mensajes de validación
+
 const playerForm = document.getElementById('playerForm');
+// const messageElement = document.getElementById('message');
+
 playerForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  // const input = playerForm.querySelector('input');
-  // const playerName = input.value.trim();
+  // Recogemos y limpiamos el nombre de jugador/a
+  const playerName = document.getElementById('playerName').value.trim();
 
-  // Recogemos en nombre del/de la player
-  const playerName = document.querySelector('#playerName').value.trim();
+  // Validación: si está vacío, mostramos mensaje y salimos
+  if (playerName === '') {
+    // messageElement.innerText = 'Por favor, introduce un nombre de usuario.';
+    return;
+  }
+
+  // Borramos cualquier mensaje anterior
+  // messageElement.innerText = '';
 
   // Inicializamos la puntuación de usuario en '0' (cero patatero)
   let playerScore = 0;
-
   // Establecemos fecha de comienzo de de la partida
-  const gameDate = new Date().toString(); // FORMATO: "Sat May 03 2025 14:20:15 GMT+0200 (Central European Summer Time)"
+  const gameStartDate = new Date().toString(); // FORMATO: "Sat May 03 2025 14:20:15 GMT+0200 (Central European Summer Time)"
 
-  // NOTA: Aún sin implantar. Lo usaremos para mostrar mensajes -> validación ("Nombre de usuario ocupado! Elige otro nombre". Ejmp. Ana, Ana1, Anna...)
-  // Checkearemos si el nombre existe en nuestra base de datos (es decir, en nuestro caso el LocalStorage)
-  const message = document.querySelector('#message');
+  // Cargamos usuarios existentes o array vacío
+  let userData = JSON.parse(localStorage.getItem('users')) || [];
 
-  // if (!playerName) { // CUIDADO! La validación más pura y estricta es la siguiente --> playerName === ''
-  //   return;
-  // }
-
-  // if (playerName === '') {
-  //   return;
-  // }
-
-  // // Guardar el nombre en localStorage
-  // localStorage.setItem('nombreUsuario', playerName);
-
-  if (playerName === '') {
-    return;
+  // Generamos un ID único para este jugador
+  if (userData.length > 0) {
+    // Obtenemos el máximo playerId de los usuarios existentes
+    const maxId = Math.max(...userData.map((user) => user.playerId));
+    playerId = maxId + 1;
   } else {
-    let userData = JSON.parse(localStorage.getItem('users')) || [];
-
-    // Determinamos un playerId (id de jugador/a) uníco:
-    // Si existen usuarios 'registrados' (LocalStorage = 'Base de datos'),
-    // cogemos el playerId más grande e incrementamos en + 1. Sino, inciamos playerId = 1.
-    let playerId;
-    if (userData.length > 0) {
-      // Obtenemos el máximo playerId de los usuarios existentes
-      const maxId = Math.max(...userData.map((user) => user.playerId));
-      playerId = maxId + 1;
-    } else {
-      playerId = 1;
-    }
-
-    userData.push({ playerId, playerName, playerScore, gameDate });
-
-    localStorage.setItem('users', JSON.stringify(userData));
+    playerId = 1;
   }
+
+  // Añadimos el nuevo jugador al array y lo guardamos en localStorage
+  userData.push({ playerId, playerName, playerScore, gameStartDate });
+  localStorage.setItem('users', JSON.stringify(userData));
+
+  // Guardamos temporalmente el ID del jugador para luego actualizar la puntuación
+  localStorage.setItem('currentPlayerId', playerId);
+
+  // Redirigimos a la página de preguntas
+  changeURL(urlQuestions);
 
   // // Redirigir a la siguiente página del juego
   // document.location.href = '/questions.html';
-
-  // Pasamos la URL (definida arriba) a la función para cambiar de URL
-  changeURL(urlQuestions);
 });
 
-// Función para cambiar de URL
+// Función para cambiar de URL sin dejar rastro en el historial
 const changeURL = (url) => {
   // return window.location.href = url;
   return window.location.replace(url);
