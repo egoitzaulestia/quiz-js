@@ -1,9 +1,4 @@
-// TODO: History 2
-// Mostrar 1ª pregunta
-// question.html
-// - Pintar la pregunta 1 desde un array local.
-// - Marcar la opción elegida (clase CSS).
-
+// Preguntas
 const dataQuiz = {
   response_code: 0,
   results: [
