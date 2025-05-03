@@ -309,3 +309,17 @@ nextButton.addEventListener('click', () => {
   currentQuestionIndex++;
   setNextQuestion();
 });
+
+// AINHOA
+
+// Esto hace que al clicar en el botón "ver resultados" se redirija al usuario a la página html results.
+
+showResultsBtn.addEventListener('click', () => {
+  document.location.href = '/results.html';
+});
+
+// Esto hace que al clicar en el botón "volver a empezar" se redirija al usuario a la página html home.
+
+restartBtn.addEventListener('click', () => {
+  document.location.href = '/home.html';
+});
