@@ -4,7 +4,7 @@
 // - Pintar la pregunta 1 desde un array local.
 // - Marcar la opción elegida (clase CSS).
 
-const quizQuestions = {
+const dataQuiz = {
   response_code: 0,
   results: [
     {
@@ -104,6 +104,8 @@ const quizQuestions = {
 
 const card = document.getElementById('questionCard');
 
+let currentAnswerButtonsDiv;
+
 // Función para formatear elemento &quot; y &#039; en texto HTML proviente de las preguntas
 // Ejemplo: 'There is an island in Japan called Ōkunoshima, A.K.A. &quot;Rabbit Island&quot;' /// --> &quot; = Comillas dobles
 // Resultado en texto HTML: 'There is an island in Japan called Ōkunoshima, A.K.A. "Rabbit Island"' /// <-- Comillas dobles!
@@ -115,23 +117,6 @@ function decodeHtml(html) {
   return txt.value;
 }
 
-// Formato de (semi) referencia para el objeto question: https://github.com/TheBridge-FullStackDeveloper/proyectos-quiz-resurrected
-
-const QUESTION_reference = {
-  name: 'elminster',
-  label: '¿Cual es el nombre mas comun del mundo?',
-  answers: [
-    { label: 'Un bardo', value: 'bardo' },
-    { label: 'Un mercader', value: 'mercader' },
-    { label: 'Un mago', value: 'mago' },
-    { label: 'Un marinero', value: 'marinero' },
-  ],
-  correct: 'mago',
-};
-
-// Objeto question con todos sus parametros
-const data = quizQuestions.results;
-
 // Creamos función para mezclar las preguntas
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -141,129 +126,190 @@ const shuffleArray = (array) => {
   return array;
 };
 
-data.forEach((question) => {
-  // console.log(question); // Debugging: Imprimimos tipo de pregunta por consola
+// Función para formatear el JSON recibidio para crear un array con todas las preguntas y con toda la metadata de cada una de ellas (parametros de cada pregunta)
+const formatQuizQuestions = (data) => {
+  // Objeto quizQuestions con todas las preguntas y sus parametros
+  const quizQuestions = data.results;
 
-  // Question Card:
+  const quizQuestionsArray = [];
 
-  // Tipo de pregunta (multiple, boolean, etc)
-  const questionType = question.type;
-  // console.log(questionType); // Debugging: Imprimimos tipo de pregunta por consola
+  quizQuestions.forEach((question) => {
+    // console.log(question); // Debugging: Imprimimos tipo de pregunta por consola
 
-  // Nivel de dificultad de la pregunta
-  const questionDifficulty = question.difficulty;
-  // console.log(questionDifficulty); // Debugging: Imprimimos dificulta por consola
+    // Question Card:
 
-  // Categoría de la pregunta
-  const questionCategory = question.category;
-  // console.log(questionCategory);
+    // Tipo de pregunta (multiple, boolean, etc)
+    const questionType = question.type;
+    // console.log(questionType); // Debugging: Imprimimos tipo de pregunta por consola
 
-  // Pregunta:
-  // Recuperamos la pregunta en modo 'raw'
-  const rawQuestion = question.question;
-  // Decodificamos elemento HTML de la pregunta (si es que los lleva)
-  const decodedQuestion = decodeHtml(rawQuestion);
-  // Asignamos el el valor de la pregunta (str) al elemento question
+    // Nivel de dificultad de la pregunta
+    const questionDifficulty = question.difficulty;
+    // console.log(questionDifficulty); // Debugging: Imprimimos dificulta por consola
 
-  const questionText = decodedQuestion;
-  // console.log(questionText); // Debugging: Imprimimos pregunta
+    // Categoría de la pregunta
+    const questionCategory = question.category;
+    // console.log(questionCategory);
 
-  // Respuestas:
-  // Respuesta correcta
-  const correctAnswer = question.correct_answer;
-  // Array con la/las respuesta/s incorrecta/s
-  const incorrectAnswers = question.incorrect_answers;
+    // Pregunta:
+    // Recuperamos la pregunta en modo 'raw'
+    const rawQuestion = question.question;
+    // Decodificamos elemento HTML de la pregunta (si es que los lleva)
+    const decodedQuestion = decodeHtml(rawQuestion);
+    // Asignamos el el valor de la pregunta (str) al elemento question
 
-  // Cremaos el array 'answers' mapeando el array de 'incorrectAnswers' y retornando un array de objtos
-  const answers = incorrectAnswers.map((answer) => {
-    return { label: answer, value: 'incorrect' };
+    const questionText = decodedQuestion;
+    // console.log(questionText); // Debugging: Imprimimos pregunta
+
+    // Respuestas:
+    // Respuesta correcta
+    const correctAnswer = question.correct_answer;
+    // Array con la/las respuesta/s incorrecta/s
+    const incorrectAnswers = question.incorrect_answers;
+
+    // Cremaos el array 'answers' mapeando el array de 'incorrectAnswers' y retornando un array de objtos
+    const answers = incorrectAnswers.map((answer) => {
+      return { label: answer, value: false };
+    });
+    answers.push({ label: correctAnswer, value: true });
+
+    // Creamos una variable con el array de las preguntas mezcladas
+    const shuffledAnswers = shuffleArray(answers); // Aplicamos función shuffleArray()
+    // console.log(answers);
+
+    // Formato del objeto questionData, con toda la información de cada pregunta:
+    const questionData = {
+      type: questionType, // Tipo de pregunta -> str
+      difficulty: questionDifficulty, // Dificultad de la pregunta -> str
+      category: questionCategory, // Categoría de la pregunta -> str
+      question: questionText, // Texto de la pregunta -> str
+      answers: shuffledAnswers, // Array con las respuestas de la pregunta -> obj (array)
+      correct: correctAnswer, // Respuesta correcta a la pregunta -> str
+    };
+
+    // console.log(questionData);
+    quizQuestionsArray.push(questionData);
   });
-  answers.push({ label: correctAnswer, value: 'correct' });
 
-  // Creamos una variable con el array de las preguntas mezcladas
-  const shuffledAnswers = shuffleArray(answers); // Aplicamos función shuffleArray()
-  // console.log(answers);
+  return quizQuestionsArray;
+};
 
-  // Formato del objeto questionData, con toda la información de cada pregunta:
-  const questionData = {
-    type: `${questionType}`, // Tipo de pregunta -> str
-    difficulty: `${questionDifficulty}`, // Dificultad de la pregunta -> str
-    category: `${questionCategory}`, // Categoría de la pregunta -> str
-    question: `${questionText}`, // Texto de la pregunta -> str
-    answer: shuffledAnswers, // Array con las respuestas de la pregunta -> obj (array)
-    correct: `${correctAnswer}`, // Respuesta correcta a la pregunta -> str
-  };
+// Obtenemos el array con todas las preguntas y con toda la metadata de cada una de ellas (parametros de cada pregunta)
+const formatedQuestions = formatQuizQuestions(dataQuiz);
+console.log(formatedQuestions[0]);
 
-  console.log(questionData);
-});
+const questionCardContainerElement = document.getElementById(
+  'questionCardContainer',
+);
+const questionCardHtml = document.getElementById('questionCard');
 
-//////////////////////////////
-
-const startButton = document.getElementById('startBtn');
+// Botones de Next y Restart
 const nextButton = document.getElementById('nextBtn');
+const restartBtn = document.getElementById('restartBtn');
+const showResultsBtn = document.getElementById('showResultsBtn');
 
-const questionContainerElement = document.getElementById('questionContainer');
-const questionElement = document.getElementById('question');
-const answerButtonsElement = document.getElementById('answerButtons');
+// let currentQuestionIndex;
 
-let currentQuestionIndex;
-
-const startGame = () => {
-  startButton.classList.add('hide');
+// Función para que se incializar el cuestionario (SIN TERMINAR)
+const startQuiz = () => {
+  // nextButton.classList.add('hide');
   currentQuestionIndex = 0;
-  questionContainerElement.classList.remove('hide');
+  questionCardHtml.classList.remove('hide');
+  // showQuestion(formatedQuestions[currentQuestionIndex]);
+
   setNextQuestion();
 };
 
+// Función para mostrar preguntas (SIN TERMINAR)
 const showQuestion = (item) => {
-  questionElement.innerText = item.question;
-  item.answers.forEach((answer) => {
-    const button = document.createElement('button');
-    button.innerText = answer.text;
+  const divQuestionHtml = document.createElement('div');
+  const questionTextHtml = document.createElement('h2');
+  questionTextHtml.innerText = item.question;
 
-    if (answer.correct) {
-      button.dataset.correct = true;
+  divQuestionHtml.appendChild(questionTextHtml);
+
+  const divAnswersButtons = document.createElement('div');
+  currentAnswerButtonsDiv = divAnswersButtons;
+  item.answers.forEach((answer) => {
+    const answerButton = document.createElement('button');
+    answerButton.classList.add('option');
+    answerButton.innerText = answer.label;
+
+    if (answer.value) {
+      answerButton.dataset.value = true;
     }
 
-    button.addEventListener('click', selectAnswer);
-    answerButtonsElement.appendChild(button);
+    answerButton.addEventListener('click', () =>
+      selectAnswer(divAnswersButtons),
+    );
+    divAnswersButtons.appendChild(answerButton);
   });
+
+  questionCardHtml.appendChild(divQuestionHtml);
+  questionCardHtml.appendChild(divAnswersButtons);
 };
+
+// Función para mostrar la siguiente pregunta (SIN TERMINAR)
+// const setNextQuestion = () => {
+//   resetState(currentAnswerButtonsDiv);
+//   showQuestion(formatedQuestions[currentQuestionIndex]);
+// };
 
 const setNextQuestion = () => {
   resetState();
-  showQuestion(questionList[currentQuestionIndex]);
+  showQuestion(formatedQuestions[currentQuestionIndex]);
 };
 
 const setStatusClass = (element) => {
-  if (element.dataset.correct) {
+  if (element.dataset.value) {
     element.classList.add('color-correct');
   } else {
     element.classList.add('color-wrong');
   }
 };
 
-const selectAnswer = () => {
-  Array.from(answerButtonsElement.children).forEach((button) => {
+const selectAnswer = (setOfAnswers) => {
+  Array.from(setOfAnswers.children).forEach((button) => {
     setStatusClass(button);
   });
 
-  if (questionList.length > currentQuestionIndex + 1) {
+  if (formatedQuestions.length > currentQuestionIndex + 1) {
     nextButton.classList.remove('hide');
   } else {
-    startButton.innerText = 'Restart';
-    startButton.classList.remove('hide');
+    // NOTA: Hay que mirar si lo hacemos así o no
+    // document.location.href = '/results.html';
+    restartBtn.classList.remove('hide');
+    showResultsBtn.classList.remove('hide');
   }
 };
+
+// NO BORRAR
+// const resetState = (divAnswersButtons) => {
+//   nextButton.classList.add('hide');
+
+//   while (divAnswersButtons.firstChild) {
+//     divAnswersButtons.removeChild(divAnswersButtons.firstChild);
+//   }
+// };
 
 const resetState = () => {
   nextButton.classList.add('hide');
-  while (answerButtonsElement.firstChild) {
-    answerButtonsElement.removeChild(answerButtonsElement.firstChild);
-  }
+  // Clears out everything (question + answers) ready for the next one:
+  questionCardHtml.innerHTML = '';
 };
 
-startButton.addEventListener('click', startGame);
+// NO BORRAR
+// const resetState = (divAnswersButtons) => {
+//   nextButton.classList.add('hide');
+//   if (!divAnswersButtons) return; // ← bail out if undefined
+
+//   while (divAnswersButtons.firstChild) {
+//     divAnswersButtons.removeChild(divAnswersButtons.firstChild);
+//   }
+// };
+
+// Se incializa el cuestionario
+startQuiz();
+
 nextButton.addEventListener('click', () => {
   currentQuestionIndex++;
   setNextQuestion();

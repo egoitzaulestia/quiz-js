@@ -9,32 +9,31 @@
   </head>
   <body>
     <main>
-      <!-- IMPORTANTE: NO BORRAR LO COMENTADO -->
-      <!-- <section id="questionsCard" class="questions-card">
-        <h1>Aquí va la pregunta del juego que se irá actualizando</h1>
-        <section id="divOpciones">
-          <div class="opcion 1">Opción 1</div>
+      <!-- IMPORTANT: NO BORRAR LO COMENTADO -->
+      <!-- <section id="questionsCard" class="questions-card"> -->
+      <!-- <h1>Aquí va la pregunta del juego que se irá actualizando</h1> -->
+      <!-- <section id="divOpciones"> -->
+      <!-- <div class="opcion 1">Opción 1</div>
           <div class="opcion 2">Opción 2</div>
           <div class="opcion 3">Opción 3</div>
-          <div class="opcion 4">Opción 4</div>
-        </section>
-        <button id="siguienteBtn">Siguiente</button>
-      </section>
-      <section id="questionArea" class="questions-card">
-        <article id="questionCard"></article>
+          <div class="opcion 4">Opción 4</div> -->
+      <!-- </section>
+        <button id="siguienteBtn" class="next-button">Siguiente</button>
       </section> -->
 
-      <!-- IMPORTANT: Esto es de "prueva", después lo haremos como lo de arriba,
-      respetando el boton starGame de la primera página -->
-      <section id="questionContainer" class="hide">
-        <div id="question">Question</div>
+      <!-- MEGA-IMPORTANT: Este es el CONTAINER REAL -->
+      <section id="questionCardContainer" class="questions-card">
+        <article id="questionCard"></article>
+        <button id="nextBtn" class="next-button">Siguiente</button>
 
-        <div id="answerButtons"></div>
+        <!-- NOTA: Es posible que los dos siguientes botones los quitemos. De todos modos, no se ven: tienen la clase 'hide' ON -->
+        <button id="restartBtn" class="restart-button hide">
+          Volver a Empezar
+        </button>
+        <button id="showResultsBtn" class="restart-button hide">
+          Ver Resultado
+        </button>
       </section>
-      <div class="controls">
-        <button id="startBtn">Start</button>
-        <button id="nextBtn" class="hide">Next</button>
-      </div>
     </main>
   </body>
 </html>

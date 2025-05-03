@@ -57,9 +57,55 @@ body {
   background-color: rgb(254, 255, 175);
 }
 
+/* //////////////// TUTORIAL ////////////////// */
+
+.hide {
+  display: none;
+}
+
+.questions-card {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 2px 2px 6px rgba(24, 24, 24, 0.25);
+}
+
+.answers {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 2px 2px 6px rgba(24, 24, 24, 0.25);
+}
+
+.option {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  background-color: white;
+  /* display: flex;
+  justify-content: center; */
+}
+
+/* Animación / hover opciones */
+.option:hover {
+  background-color: rgb(254, 255, 175);
+}
+
 /* Diseño botón */
 
-#siguienteBtn {
+.next-button,
+.restart-button {
   background-color: rgb(170, 241, 241);
   padding: 10px 20px;
   border-radius: 6px;
@@ -69,14 +115,9 @@ body {
 }
 
 /* Animación / hover botón */
-#siguienteBtn:hover {
+.next-button:hover,
+.restart-button:hover {
   background-color: rgb(132, 218, 218);
-}
-
-/* //////////////// TUTORIAL ////////////////// */
-
-.hide {
-  display: none;
 }
 
 .color-correct {
