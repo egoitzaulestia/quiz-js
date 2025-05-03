@@ -17,3 +17,32 @@ body {
     font-size: 1.2rem;
   }
 }
+
+/* Diseño card */
+
+.results-card {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 2px 2px 6px rgba(24, 24, 24, 0.25);
+}
+
+/* Diseño botón */
+
+#newGameBtn {
+  background-color: rgb(170, 241, 241);
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Animación / hover botón */
+#newGameBtn:hover {
+  background-color: rgb(132, 218, 218);
+}
