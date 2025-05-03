@@ -99,6 +99,9 @@ const dataQuiz = {
 
 const card = document.getElementById('questionCard');
 
+// Variable que almacena la puntuación del juego
+let score = 0;
+
 let currentAnswerButtonsDiv;
 
 // Función para formatear elemento &quot; y &#039; en texto HTML proviente de las preguntas
@@ -116,7 +119,7 @@ function decodeHtml(html) {
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]; // ✅ Correct swap
+    [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
 };
@@ -233,9 +236,16 @@ const showQuestion = (item) => {
       answerButton.dataset.value = true;
     }
 
-    answerButton.addEventListener('click', () =>
-      selectAnswer(divAnswersButtons),
-    );
+    answerButton.addEventListener('click', () => {
+      selectAnswer(divAnswersButtons);
+      console.log(answerButton.innerText);
+
+      // Sie el uduario acierta la pregunta se suma 1 punto
+      if (answer.value) {
+        score++;
+        console.log(`Boom ${score}`);
+      }
+    });
     divAnswersButtons.appendChild(answerButton);
   });
 
@@ -274,6 +284,8 @@ const selectAnswer = (setOfAnswers) => {
     // document.location.href = '/results.html';
     restartBtn.classList.remove('hide');
     showResultsBtn.classList.remove('hide');
+
+    localStorage.setItem('score', score);
   }
 };
 
@@ -288,14 +300,14 @@ const selectAnswer = (setOfAnswers) => {
 
 const resetState = () => {
   nextButton.classList.add('hide');
-  // Clears out everything (question + answers) ready for the next one:
+  // Limpia todo — (question + answers) — para mostrar la siguiente pregunta y las respuestas
   questionCardHtml.innerHTML = '';
 };
 
 // NO BORRAR
 // const resetState = (divAnswersButtons) => {
 //   nextButton.classList.add('hide');
-//   if (!divAnswersButtons) return; // ← bail out if undefined
+//   if (!divAnswersButtons) return;
 
 //   while (divAnswersButtons.firstChild) {
 //     divAnswersButtons.removeChild(divAnswersButtons.firstChild);
@@ -323,3 +335,5 @@ showResultsBtn.addEventListener('click', () => {
 restartBtn.addEventListener('click', () => {
   document.location.href = '/home.html';
 });
+
+///////////////////////////
