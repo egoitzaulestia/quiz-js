@@ -193,7 +193,7 @@ const formatQuizQuestions = (data) => {
 
 // Obtenemos el array con todas las preguntas y con toda la metadata de cada una de ellas (parametros de cada pregunta)
 const formatedQuestions = formatQuizQuestions(dataQuiz);
-console.log(formatedQuestions[0]);
+// console.log(formatedQuestions[0]);
 
 const questionCardContainerElement = document.getElementById(
   'questionCardContainer',
@@ -243,11 +243,14 @@ const showQuestion = (item) => {
       // Sie el uduario acierta la pregunta se suma 1 punto
       if (answer.value) {
         score++;
-        console.log(`Boom ${score}`);
       }
+      // console.log(`Score: ${score}`);
     });
+
     divAnswersButtons.appendChild(answerButton);
   });
+
+  console.log(`Score: ${score}`);
 
   questionCardHtml.appendChild(divQuestionHtml);
   questionCardHtml.appendChild(divAnswersButtons);
