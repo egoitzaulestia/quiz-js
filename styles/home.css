@@ -31,6 +31,22 @@ body {
   box-shadow: 2px 2px 6px rgba(24, 24, 24, 0.25);
 }
 
+/* Diseño input usuario */
+.playerName {
+  width: 80%;
+  padding: 10px;
+  margin: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+/* Diseño gif */
+img {
+  max-width: 100%;
+  margin: 20px 0 30px 0;
+}
+
 /* Diseño botón */
 
 #startGameBtn {
