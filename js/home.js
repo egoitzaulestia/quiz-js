@@ -4,7 +4,8 @@ const urlQuestions = '/questions.html';
 // // Variable que utilizaremos para...
 // const userDataBase = [];
 
-let playerId = 1;
+// // Incializamos el Id en 1
+// let playerId = 1;
 // const gameDate = ''; // Cuando le demos a COMENZAR JUEGO, lo activaremos ---> new Date().toString()
 
 // // Recuperamos el id del formulario donde el usuario mete su nombre y le añadimos un evento para prevenir fallos. Luego cogemos el input que se encuentra dentro del formulario con "playerForm.querySelector('input')" y recogemos el valor introducido y lo asignamos a la variable playerName. Después nos aseguramos de que si el playerName esta vacío (!), haga return para que el usuario rellene el campo y si el campo está rellenado guardamos el valor "playerName" en el local storage para despues redirigir al usuario a questions.html.
@@ -45,11 +46,12 @@ playerForm.addEventListener('submit', (event) => {
   } else {
     let userData = JSON.parse(localStorage.getItem('users')) || [];
 
-    // Determine a unique playerId:
-    // If there are users, take the highest current playerId and increment it + 1. Otherwise, start with 1.
+    // Determinamos un playerId (id de jugador/a) uníco:
+    // Si existen usuarios 'registrados' (LocalStorage = 'Base de datos'),
+    // cogemos el playerId más grande e incrementamos en + 1. Sino, inciamos playerId = 1.
     let playerId;
     if (userData.length > 0) {
-      // Get the maximum playerId from existing users
+      // Obtenemos el máximo playerId de los usuarios existentes
       const maxId = Math.max(...userData.map((user) => user.playerId));
       playerId = maxId + 1;
     } else {
@@ -79,6 +81,9 @@ const changeURL = (url) => {
 ////////////////////////////////
 ////////////////////////////////
 ////////////////////////////////
+// NOTA: El siguiente código es del ejercicio de usuarios (Bootstrap y Validaciones)
+// para ver como guardar los datos de los usuarios en un array
+// en LocalStorage a modo de bases de datos
 
 // const urlUsers = './users.html';
 
