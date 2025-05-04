@@ -49,7 +49,7 @@ img {
 
 /* Diseño botón */
 
-#startGameBtn {
+.logic-button {
   background-color: rgb(170, 241, 241);
   padding: 10px 20px;
   border-radius: 6px;
@@ -59,6 +59,6 @@ img {
 }
 
 /* Animación / hover botón */
-#startGameBtn:hover {
+.logic-button:hover {
   background-color: rgb(132, 218, 218);
 }
