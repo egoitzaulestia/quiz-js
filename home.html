@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles/home.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script src="js/home.js" defer></script>
     <title>Home</title>
   </head>
@@ -11,7 +13,6 @@
     <main>
       <section id="homeCard" class="home-card">
         <h1>¡Bienvenidx a juegilandia!</h1>
-
         <section class="gifDiv">
           <img
             src="./assets/Retro_Video_Gamer.gif"
@@ -32,6 +33,14 @@
             Comenzar a jugar
           </button>
         </form>
+        <!-- NUEVA SECCIÓN DE HISROTIAL DE PARTIDAS -->
+        <section id="historyCard" class="history-card">
+          <h2>Historial de partidas</h2>
+          <ul id="gamesList"></ul>
+
+          <h3>Gráfico de puntuaciones</h3>
+          <canvas id="scoreChart" width="400" height="200"></canvas>
+        </section>
       </section>
     </main>
   </body>

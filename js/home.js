@@ -62,6 +62,50 @@ const changeURL = (url) => {
   return window.location.replace(url);
 };
 
+// Mostrar historial de partidas
+const users = JSON.parse(localStorage.getItem('users')) || [];
+const gamesList = document.getElementById('gamesList');
+
+if (users.length > 0 && gamesList) {
+  users.forEach((user) => {
+    const li = document.createElement('li');
+    li.innerText = `${user.playerName} - ${user.playerScore}/10 - ${new Date(
+      user.gameEndDate || user.gameStartDate,
+    ).toLocaleString()}`;
+    gamesList.appendChild(li);
+  });
+}
+
+// Mostrar gráfico si hay datos y si existe el canvas
+const scoreChartCanvas = document.getElementById('scoreChart');
+
+if (scoreChartCanvas && users.length > 0) {
+  const ctx = scoreChartCanvas.getContext('2d');
+  const labels = users.map((u) => u.playerName);
+  const data = users.map((u) => u.playerScore || 0);
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Puntuación',
+          data,
+          backgroundColor: 'rgba(170, 241, 241, 0.7)',
+          borderColor: 'rgba(0, 100, 100, 0.9)',
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: { beginAtZero: true, max: 10 },
+      },
+    },
+  });
+}
+
 ////////////////////////////////
 ////////////////////////////////
 ////////////////////////////////

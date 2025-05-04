@@ -62,3 +62,24 @@ img {
 .logic-button:hover {
   background-color: rgb(132, 218, 218);
 }
+
+/* Diseño Card historial de partidas */
+.history-card {
+  border: 1px solid #ccc;
+  margin: 20px;
+  padding: 15px;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+}
+
+/* Listado de jugadores */
+
+#gamesList {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+#gamesList li {
+  margin-bottom: 8px;
+}
