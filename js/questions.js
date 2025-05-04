@@ -129,12 +129,7 @@ const setNextQuestion = () => {
   showQuestion(formattedQuestions[currentQuestionIndex]);
 };
 
-// const setNextQuestion = () => {
-//   resetState();
-//   showQuestion(formatedQuestions[currentQuestionIndex]);
-// };
-
-// // Función que quita todo el contenido previo para preparar la siguiente pregunta
+// Función que quita todo el contenido previo para preparar la siguiente pregunta
 const resetState = () => {
   nextButton.classList.add('hide');
   questionCardHtml.innerHTML = '';

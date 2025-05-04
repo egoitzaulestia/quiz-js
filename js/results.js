@@ -11,7 +11,6 @@ const goHomeBtn = document.getElementById('goHomeBtn');
 
 // Función para cambiar de URL sin dejar rastro en el historial
 const changeURL = (url) => {
-  // return window.location.href = url;
   return window.location.replace(url);
 };
 
@@ -45,7 +44,8 @@ const userResultParagraph = document.getElementById('userResult');
 
 const userNameh1 = document.getElementById('userNameh1');
 
-// Le decimos que si (if) users Y (&&) la longitud de users es mayor que 0, nos haga: primero, que nos coja el último usuario que ha jugado a nuestro juego con 'users[users.length - 1];' y lo meta en la variable 'currentUser'. Luego, le decimos que en las variables que hemos creado arriba 'userNameh1' y 'userResult' nos haga un innerText para meter los valores recogidos.
+// Le decimos que si (if) users Y (&&) la longitud de users es mayor que 0, nos haga: primero, que nos coja el último usuario que ha jugado a nuestro juego con 'users[users.length - 1];'
+// y lo meta en la variable 'currentUser'. Luego, le decimos que en las variables que hemos creado arriba 'userNameh1' y 'userResult' nos haga un innerText para meter los valores recogidos.
 
 if (users && users.length > 0) {
   const currentUser = users[users.length - 1];

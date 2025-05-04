@@ -1,5 +1,5 @@
 /* Mobile First (pantallas pequeñas por defecto) */
-body {
+/* body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
@@ -8,6 +8,22 @@ body {
   align-items: center;
   height: 100vh;
   background-color: #f3f3f3;
+} */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* ↔️ don’t vertically center */
+
+  min-height: 100vh; /* ↔️ allow body to grow beyond one viewport */
+  background-color: #f3f3f3;
+
+  /* (optional) ensure you can scroll if content overflows */
+  overflow-y: auto;
 }
 
 /* @media para pantallas grandes */
@@ -74,12 +90,22 @@ img {
 
 /* Listado de jugadores */
 
-#gamesList {
+/* #gamesList {
   list-style: none;
   padding: 0;
   text-align: left;
 }
 
 #gamesList li {
+  margin-bottom: 8px;
+} */
+
+.games-list {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.games-list li {
   margin-bottom: 8px;
 }
