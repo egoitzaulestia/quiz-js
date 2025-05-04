@@ -104,8 +104,7 @@ body {
 
 /* Diseño botón */
 
-.next-button,
-.restart-button {
+.logic-button {
   background-color: rgb(170, 241, 241);
   padding: 10px 20px;
   border-radius: 6px;
@@ -115,8 +114,7 @@ body {
 }
 
 /* Animación / hover botón */
-.next-button:hover,
-.restart-button:hover {
+.logic-button:hover {
   background-color: rgb(132, 218, 218);
 }
 

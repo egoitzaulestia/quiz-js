@@ -4,21 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles/questions.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
     <script src="js/questions.js" defer></script>
-
     <title>Questions</title>
   </head>
   <body>
     <main>
       <section id="questionCardContainer" class="questions-card">
         <article id="questionCard"></article>
-        <button id="nextBtn" class="next-button">Siguiente</button>
+        <button id="nextBtn" class="logic-button hide">Siguiente</button>
 
         <!-- NOTA: Es posible que los dos siguientes botones los quitemos. De todos modos, no se ven: tienen la clase 'hide' ON -->
-        <button id="restartBtn" class="restart-button hide">
-          Volver a Empezar
+        <button id="goHomeBtn" class="logic-button hide">
+          Volver al inicio
         </button>
-        <button id="showResultsBtn" class="restart-button hide">
+        <button id="showResultsBtn" class="logic-button hide">
           Ver Resultado
         </button>
       </section>

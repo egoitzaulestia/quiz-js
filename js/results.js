@@ -1,11 +1,32 @@
 // results.js
 
-// Recuperamos el botón de la tarjeta de la página Results
+// URLs
+const urlHome = '/home.html';
+const urlQuiz = '/questions.html';
 
-const newGameBtn = document.getElementById('newGameBtn');
+// Referencias al DOM
+const goHomeBtn = document.getElementById('goHomeBtn');
+// NOTA: No borrar
+// const newGameBtn = document.getElementById('newGameBtn');
+
+// Función para cambiar de URL sin dejar rastro en el historial
+const changeURL = (url) => {
+  // return window.location.href = url;
+  return window.location.replace(url);
+};
+
+// Listeners de botones:
 
 // Hacemos que al clicar en el botón nos lleve a la página de inicio
 
-newGameBtn.addEventListener('click', () => {
-  document.location.href = '/home.html';
+goHomeBtn.addEventListener('click', () => {
+  changeURL(urlHome);
 });
+
+// NOTA: No borrar
+// // Hacemos que al clicar reinicia el quiz
+
+// newGameBtn.addEventListener('click', () => {
+//   changeURL(urlQuiz);
+//   // document.location.href = '/home.html';
+// });
