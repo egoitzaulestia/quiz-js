@@ -19,16 +19,17 @@ const changeURL = (url) => {
 // Hacemos que al clicar en el botón nos lleve a la página de inicio
 
 goHomeBtn.addEventListener('click', () => {
+  // localStorage.removeItem('currentPlayerId');
   changeURL(urlHome);
 });
 
 // NOTA: No borrar
 // // Hacemos que al clicar reinicia el quiz
 
-// newGameBtn.addEventListener('click', () => {
-//   changeURL(urlQuiz);
-//   // document.location.href = '/home.html';
-// });
+newGameBtn.addEventListener('click', () => {
+  changeURL(urlQuiz);
+  // document.location.href = '/home.html';
+});
 
 // Leer del local storage el nombre de usuario y el score del ultimo jugador del array de USERS del localStorage:
 
