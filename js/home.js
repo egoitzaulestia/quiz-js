@@ -7,14 +7,16 @@ const urlQuiz = '/questions.html';
 
 // Formulario de inicio de juego y elemento para mensajes de validación
 
+// Referencia al formulario y al input de nombre
 const playerForm = document.getElementById('playerForm');
+const playerNameInput = document.getElementById('playerName');
 // const messageElement = document.getElementById('message');
 
 playerForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
   // Recogemos y limpiamos el nombre de jugador/a
-  const playerName = document.getElementById('playerName').value.trim();
+  const name = playerNameInput.value.trim();
 
   // Validación: si está vacío, mostramos mensaje y salimos
   if (playerName === '') {
@@ -22,38 +24,30 @@ playerForm.addEventListener('submit', (event) => {
     return;
   }
 
-  // Borramos cualquier mensaje anterior
-  // messageElement.innerText = '';
+  // Cargar o inicializar los arrays de player y sessions
+  const players = JSON.parse(localStorage.getItem('players')) || [];
+  const sessions = JSON.parse(localStorage.getItem('sessions')) || [];
 
-  // Inicializamos la puntuación de usuario en '0' (cero patatero)
-  let playerScore = 0;
-  // Establecemos fecha de comienzo de de la partida
-  const gameStartDate = new Date().toString(); // FORMATO: "Sat May 03 2025 14:20:15 GMT+0200 (Central European Summer Time)"
+  // Buscamos si ya existe el/la jugador/a, si no crear uno nuevo
+  let player = players.find((p) => p.name === name);
 
-  // Cargamos usuarios existentes o array vacío
-  let userData = JSON.parse(localStorage.getItem('users')) || [];
-
-  // Generamos un ID único para este jugador
-  if (userData.length > 0) {
-    // Obtenemos el máximo playerId de los usuarios existentes
-    const maxId = Math.max(...userData.map((user) => user.playerId));
-    playerId = maxId + 1;
-  } else {
-    playerId = 1;
+  if (!player) {
+    const newId = players.length
+      ? Math.max(...players.map((p) => p.id)) + 1
+      : 1;
+    player = { id: newId, name };
+    players.push(player);
+    localStorage.setItem('players', JSON.stringify(players));
   }
 
-  // Añadimos el nuevo jugador al array y lo guardamos en localStorage
-  userData.push({ playerId, playerName, playerScore, gameStartDate });
-  localStorage.setItem('users', JSON.stringify(userData));
+  // Guardar el playerId actual para usarlo en question.js
+  localStorage.setItem('currentPlayerId', player.id);
 
-  // Guardamos temporalmente el ID del jugador para luego actualizar la puntuación
-  localStorage.setItem('currentPlayerId', playerId);
+  // Registramos la fecha/hora de inicio de sesión
+  localStorage.setItem('gameStart', new Date().toISOString());
 
-  // Redirigimos a la página de preguntas
+  // Redirigimos al quis
   changeURL(urlQuiz);
-
-  // // Redirigir a la siguiente página del juego
-  // document.location.href = '/questions.html';
 });
 
 // Función para cambiar de URL sin dejar rastro en el historial
@@ -63,49 +57,160 @@ const changeURL = (url) => {
 };
 
 // Mostrar historial de partidas
-const users = JSON.parse(localStorage.getItem('users')) || [];
+const players = JSON.parse(localStorage.getItem('players')) || [];
+const sessions = JSON.parse(localStorage.getItem('sessions')) || [];
 const gamesList = document.getElementById('gamesList');
 
-if (users.length > 0 && gamesList) {
-  users.forEach((user) => {
+if (sessions.length && gamesList) {
+  // Ordenamos cronológicamente
+  sessions.sort((a, b) => new Date(b.end) - new Date(a.end));
+
+  // Nos quedamos con los 5 primeros elementos
+  const recentFive = sessions.slice(0, 5);
+
+  // Ireramos sobre el sub-array recentFive
+  recentFive.forEach((sess) => {
+    const player = players.find((p) => p.id === sess.playerId);
+    const name = player ? player.name : 'Jugador/a';
+    const when = new Date(sess.end).toLocaleString();
+
     const li = document.createElement('li');
-    li.innerText = `${user.playerName} - ${user.playerScore}/10 - ${new Date(
-      user.gameEndDate || user.gameStartDate
-    ).toLocaleDateString()}`;
-    
+    li.innerText = `${name} - ${sess.score}/10 - ${when}`;
     gamesList.appendChild(li);
+
+    if (sessions.length === 5) {
+      return;
+    }
   });
 }
 
-// Mostrar gráfico si hay datos y si existe el canvas
-const scoreChartCanvas = document.getElementById('scoreChart');
+const ctx = document.getElementById('scoreChart').getContext('2d');
 
-if (scoreChartCanvas && users.length > 0) {
-  const ctx = scoreChartCanvas.getContext('2d');
-  const labels = users.map((u) => u.playerName);
-  const data = users.map((u) => u.playerScore || 0);
+const totals = {};
+sessions.forEach((s) => {
+  totals[s.playersId] = (totals[s.playerId] || 0) + s.score;
+});
+const labels = players.map((p) => p.name);
+const data = players.map((p) => totals[p.id] || 0);
 
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: 'Puntuación',
-          data,
-          backgroundColor: 'rgba(170, 241, 241, 0.7)',
-          borderColor: 'rgba(0, 100, 100, 0.9)',
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      scales: {
-        y: { beginAtZero: true, max: 10 },
-      },
-    },
-  });
-}
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    // asume sesiones ordenadas cronológicamente
+    labels: sessions.map((_, i) => `Game ${i + 1}`),
+    datasets: players.map((p) => ({
+      label: p.name,
+      data: sessions.filter((s) => s.playerId === p.id).map((s) => s.score),
+      fill: false,
+      tension: 0.3,
+    })),
+  },
+  options: {
+    scales: { y: { beginAtZero: true, max: 10 } },
+  },
+});
+
+// const ctx = document.getElementById('scoreChart').getContext('2d');
+
+// // 1️⃣ Ordena y coge sólo las primeras 5 sesiones
+// const recentSessions = sessions
+//   .slice() // clona para no mutar el original
+//   .sort((a, b) => new Date(a.start) - new Date(b.start)) // cronológico ascendente
+//   .slice(0, 5); // máximo 5 partidas
+
+// // 2️⃣ Prepara las etiquetas (Game 1…Game N)
+// const labels = recentSessions.map((_, i) => `Game ${i + 1}`);
+
+// // 3️⃣ Para cada jugador, extrae su puntuación en esas 5 sesiones
+// const datasets = players.map((p) => ({
+//   label: p.name,
+//   data: recentSessions.filter((s) => s.playerId === p.id).map((s) => s.score),
+//   fill: false,
+//   tension: 0.3,
+// }));
+
+// // 4️⃣ Crea el gráfico
+// new Chart(ctx, {
+//   type: 'line',
+//   data: { labels, datasets },
+//   options: {
+//     scales: {
+//       y: { beginAtZero: true, max: 10 },
+//     },
+//   },
+// });
+
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
+
+// // 2️⃣ Construye el gráfico con las correcciones:
+// new Chart(ctx, {
+//   type: 'bar',
+//   data: {
+//     labels, // tu array de etiquetas
+//     datasets: [
+//       {
+//         label: 'Puntuación total',
+//         data, // tu array de datos
+//         backgroundColor: labels.map(() => 'rgba(170, 241, 241, 0.7)'), // ← paréntesis de cierre
+//         borderColor: labels.map(() => 'rgba(0, 100, 100, 0.9)'), // ← paréntesis de cierre
+//         borderWidth: 1,
+//       },
+//     ],
+//   },
+//   options: {
+//     scales: {
+//       // ← debe ser "scales"
+//       y: {
+//         beginAtZero: true,
+//         max: 10, // opcional: límite superior
+//       },
+//     },
+//   },
+// });
+
+// if (users.length > 0 && gamesList) {
+//   users.forEach((user) => {
+//     const li = document.createElement('li');
+//     li.innerText = `${user.name} - ${user.playerScore}/10 - ${new Date(
+//       user.gameEndDate || user.gameStartDate,
+//     ).toLocaleString()}`;
+//     gamesList.appendChild(li);
+//   });
+// }
+
+// // Mostrar gráfico si hay datos y si existe el canvas
+// const scoreChartCanvas = document.getElementById('scoreChart');
+
+// if (scoreChartCanvas && users.length > 0) {
+//   const ctx = scoreChartCanvas.getContext('2d');
+//   const labels = users.map((u) => u.name);
+//   const data = users.map((u) => u.playerScore || 0);
+
+//   new Chart(ctx, {
+//     type: 'bar',
+//     data: {
+//       labels,
+//       datasets: [
+//         {
+//           label: 'Puntuación',
+//           data,
+//           backgroundColor: 'rgba(170, 241, 241, 0.7)',
+//           borderColor: 'rgba(0, 100, 100, 0.9)',
+//           borderWidth: 1,
+//         },
+//       ],
+//     },
+//     options: {
+//       scales: {
+//         y: { beginAtZero: true, max: 10 },
+//       },
+//     },
+//   });
+// }
 
 ////////////////////////////////
 ////////////////////////////////

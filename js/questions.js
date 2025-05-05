@@ -56,10 +56,8 @@ const formatQuizQuestions = (rawQuestions) => {
 
 // Variables de estado:
 let formattedQuestions = [];
-let score = 0;
 let currentQuestionIndex = 0;
-
-let currentAnswerButtonsDiv;
+let score = 0;
 
 // Referencias al DOM
 const questionCardHtml = document.getElementById('questionCard');
@@ -87,7 +85,7 @@ const startQuiz = () => {
 // Función para mostrar una pregunta y sus opciones
 const showQuestion = (item) => {
   // Limpiar cualquier contenido previo
-  // questionCardHtml.innerHTML = '';
+  // questionCardHtml.innerHTML = ''; // Limpiar
 
   // Crear y añadir el título de la pregunta
   const h2 = document.createElement('h2');
@@ -111,13 +109,10 @@ const showQuestion = (item) => {
     // Al hacer clic, procesar la selección
     button.addEventListener('click', () => {
       selectAnswer(divAnswers, answer.isCorrect);
-      // console.log(button.innerText);
     });
 
     divAnswers.appendChild(button);
   });
-
-  // console.log(`Score: ${score}`);
 
   questionCardHtml.appendChild(divAnswers);
 };
@@ -162,19 +157,19 @@ const selectAnswer = (answerContainer, isCorrect) => {
     goHomeBtn.classList.remove('hide');
     showResultsBtn.classList.remove('hide');
 
-    // Actualiza el score en localStorage para el jugador actual
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const currentId = parseInt(localStorage.getItem('currentPlayerId'), 10);
-    const idx = users.findIndex((u) => u.playerId === currentId);
-    if (idx !== -1) {
-      users[idx].playerScore = score;
-      users[idx].gameEndDate = new Date().toString();
-      localStorage.setItem('users', JSON.stringify(users));
-    }
-
-    localStorage.removeItem('currentPlayerId');
-    localStorage.setItem('score', score);
+    saveSession();
   }
+};
+
+// Guardar la sesión en localStorage bajo "sessions"
+const saveSession = () => {
+  const playerId = parseInt(localStorage.getItem('currentPlayerId'), 10);
+  const start = localStorage.getItem('gameStart') || new Date().toISOString();
+  const end = new Date().toISOString();
+
+  const sessions = JSON.parse(localStorage.getItem('sessions')) || [];
+  sessions.push({ playerId, score, start, end });
+  localStorage.setItem('sessions', JSON.stringify(sessions));
 };
 
 // Listeners de botones:
@@ -190,7 +185,7 @@ showResultsBtn.addEventListener('click', () => {
 
 // Esto hace que al clicar en el botón "volver a empezar" se redirija al usuario a la página html home.
 goHomeBtn.addEventListener('click', () => {
-  window.location.href = '/home.html';
+  window.location.href = '/homeCopy.html';
 });
 
 getQuestions()
