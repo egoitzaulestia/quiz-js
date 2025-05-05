@@ -59,8 +59,6 @@ let formattedQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 
-// let currentAnswerButtonsDiv;
-
 // Referencias al DOM
 const questionCardHtml = document.getElementById('questionCard');
 const nextButton = document.getElementById('nextBtn');
@@ -160,18 +158,6 @@ const selectAnswer = (answerContainer, isCorrect) => {
     showResultsBtn.classList.remove('hide');
 
     saveSession();
-    // // Actualiza el score en localStorage para el jugador actual
-    // const users = JSON.parse(localStorage.getItem('users')) || [];
-    // const currentId = parseInt(localStorage.getItem('currentPlayerId'), 10);
-    // const idx = users.findIndex((u) => u.playerId === currentId);
-    // if (idx !== -1) {
-    //   users[idx].playerScore = score;
-    //   users[idx].gameEndDate = new Date().toString();
-    //   localStorage.setItem('users', JSON.stringify(users));
-    // }
-
-    // localStorage.removeItem('currentPlayerId');
-    // localStorage.setItem('score', score);
   }
 };
 
@@ -184,9 +170,6 @@ const saveSession = () => {
   const sessions = JSON.parse(localStorage.getItem('sessions')) || [];
   sessions.push({ playerId, score, start, end });
   localStorage.setItem('sessions', JSON.stringify(sessions));
-
-  // localStorage.removeItem('currentPlayerId');
-  // localStorage.removeItem('gameStart');
 };
 
 // Listeners de botones:
@@ -202,7 +185,7 @@ showResultsBtn.addEventListener('click', () => {
 
 // Esto hace que al clicar en el botón "volver a empezar" se redirija al usuario a la página html home.
 goHomeBtn.addEventListener('click', () => {
-  window.location.href = '/home.html';
+  window.location.href = '/homeCopy.html';
 });
 
 getQuestions()

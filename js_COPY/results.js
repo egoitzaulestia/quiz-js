@@ -1,7 +1,7 @@
 // results.js
 
 // URLs
-const urlHome = '/home.html';
+const urlHome = '/homeCopy.html';
 const urlQuiz = '/questions.html';
 
 // Referencias al DOM
@@ -43,7 +43,7 @@ const mySessions = sessions.filter((s) => s.playerId === currentId);
 
 // Obtener la última sesión jugada
 const lastSession = mySessions.length
-  ? mySessions[mySessions.lenght - 1]
+  ? mySessions[mySessions.length - 1]
   : null;
 
 // Mostrar en pantall
