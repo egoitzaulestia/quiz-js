@@ -25,16 +25,18 @@ main {
   justify-content: center;
 }
 
-/* Diseño título principal */
 
 h1 {
   font-family: 'Press Start 2P', system-ui;
-  font-size: 100px;
+  font-size: 3rem;
   font-weight: 400;
   font-style: normal;
-  color: rgb(250 245 180);
+  color: rgb(245, 187, 94);
   text-align: center;
   text-decoration-line: 2px black;
+  padding-top: 3.125rem;
+  text-shadow: 3px 1px 2px rgb(0, 0, 0);
+  
 }
 
 /* Contenedor responsive */
@@ -43,7 +45,7 @@ h1 {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 100px;
+  margin-top: 3.125rem;
 }
 
 /* Diseño ambas cards */
@@ -53,7 +55,7 @@ h1 {
   border: 2px solid black;
   border-radius: 16px;
   overflow: hidden;
-  width: 600px;
+  width: 25rem;
   margin: 30px;
   letter-spacing: 1px;
   font-family: Arial, Helvetica, sans-serif;
@@ -72,21 +74,17 @@ h1 {
 /* Div que engloba los textos */
 
 .cardContent {
-  padding: 1em;
+  padding: 1.3rem;
 }
 
 /* Diseño de todos los títulos */
 .cardContent h3 {
-  padding: 2px;
   text-align: center;
-  font-size: 20px;
+  font-size: 0.9rem;
   margin-top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
+  line-height: 25px;
   /* BUSCAR CÓMO AUMENTAR EL ENTRELINEADO */
-}
-
-#historyCard h3 {
-  margin-top: 50px;
 }
 
 .gamesList {
@@ -94,11 +92,14 @@ h1 {
   font-size: 15px;
   line-height: 1.3;
   list-style: none;
-  padding: 10px;
+  
 }
 
 li {
-  padding-bottom: 5px;
+  padding:0.313rem;
+  padding: 20px;
+  border-bottom:  solid 2px #66bae1;
+  
 }
 
 .logic-button {
@@ -111,11 +112,29 @@ li {
   font-weight: bold;
   box-shadow: 0 2px;
   cursor: pointer;
-  margin: 200px 0 0 0;
+  margin: 0.7rem 0 0 0;
+ 
+  
 }
 
+/* Animación / hover botón */
+.logic-button:hover {
+  background-color: rgb(252, 255, 94);
+}
+
+.btn{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top:50px 0 50px ;
+  margin-bottom: 30px;
+}
 input {
-  padding: 20px;
+  padding: 1rem;
   width: 100%;
   border-radius: 1.5em;
+  font-size: 0.625rem;
+  margin-bottom: 20px;
 }

@@ -3,6 +3,7 @@
 // URLs
 const urlHome = '/home.html';
 const urlQuiz = '/questions.html';
+const urlHomeCopy = '/homeCopy.html';
 
 // Referencias al DOM
 const goHomeBtn = document.getElementById('goHomeBtn');

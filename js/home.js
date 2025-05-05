@@ -70,8 +70,9 @@ if (users.length > 0 && gamesList) {
   users.forEach((user) => {
     const li = document.createElement('li');
     li.innerText = `${user.playerName} - ${user.playerScore}/10 - ${new Date(
-      user.gameEndDate || user.gameStartDate,
-    ).toLocaleString()}`;
+      user.gameEndDate || user.gameStartDate
+    ).toLocaleDateString()}`;
+    
     gamesList.appendChild(li);
   });
 }
