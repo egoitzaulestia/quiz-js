@@ -3,6 +3,7 @@
 // URLs
 const urlHome = '/home.html';
 const urlQuiz = '/questions.html';
+const urlHomeCopy = '/homeCopy.html';
 
 // Referencias al DOM
 const goHomeBtn = document.getElementById('goHomeBtn');
@@ -19,7 +20,7 @@ const changeURL = (url) => {
 // Hacemos que al clicar en el botón nos lleve a la página de inicio
 
 goHomeBtn.addEventListener('click', () => {
-  changeURL(urlHome);
+  changeURL(urlHomeCopy);
 });
 
 // NOTA: No borrar
