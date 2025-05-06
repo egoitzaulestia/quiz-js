@@ -48,7 +48,8 @@ const lastSession = mySessions.length
 
 // Mostrar en pantall
 if (lastSession) {
-  userNameh1.innerText = `${playerName} ha conseguido una puntuación de:`;
+  userNameh1.innerHTML = `<span class="player-name">${playerName}</span> ha conseguido una puntuación de:`;
+
   userResultP.innerText = `${lastSession.score}`;
 } else {
   userNameh1.innerText = `${playerName}`;

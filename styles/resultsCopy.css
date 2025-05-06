@@ -1,0 +1,155 @@
+/* reseteo */
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: 'Press Start 2P', system-ui;
+}
+
+/* imagen de fondo (tiene que estar en la carpeta de estilos) */
+
+body {
+  background-image: url(/assets/arcade.png);
+}
+
+/* Como centrar un div -midudev- */
+
+main {
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ////////////////////////////////////////// */
+
+/* Diseño contenedor card Resultados */
+
+.results-card {
+  width: 28rem;
+  background-color: #ffffff;
+  padding: 2rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  overflow: hidden;
+  height: auto;
+  letter-spacing: 1px;
+  box-shadow: 0 4px;
+}
+
+/* Diseño h1 */
+
+.results-card h1 {
+  font-family: 'Press Start 2P', system-ui;
+  text-align: left;
+  font-size: 1.5rem;
+}
+
+/* Diseño PLAYER NAME */
+
+.player-name {
+  color: #e91e63;
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+/* Diseño PUNTUACIÓN OBTENIDA card */
+
+@keyframes popIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#userResult {
+  background: linear-gradient(270deg, #ff8a00, #e52e71, #9b00ff);
+  margin: 1rem 0;
+  color: white;
+  padding: 1rem;
+  border-radius: 15px;
+  font-size: 3rem;
+  font-weight: bold;
+  animation: popIn 0.5s ease-out;
+  text-align: center;
+}
+
+/*DISEÑO DIV DE TODOS LOS BOTONES - INFERIORES*/
+
+.BtnsDiv {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/*DISEÑO DE TODOS LOS BOTONES - INFERIORES*/
+
+.logic-button {
+  padding: 0.8em 1.5em;
+  border: 2px solid black;
+  border-radius: 1.5em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  box-shadow: 0 2px;
+  cursor: pointer;
+  margin: 0.7rem 0 0 0;
+}
+
+/*DISEÑO BOTÓN GO HOME */
+
+#goHomeBtn {
+  background-color: rgb(140 174 196 / 30%);
+  transition: transform 0.2s;
+}
+
+/* Animación / BOTÓN GO HOME */
+#goHomeBtn:hover {
+  background-color: rgb(163 252 254);
+  transform: scale(1.1);
+}
+
+/*DISEÑO BOTÓN NEW GAME */
+
+#newGameBtn {
+  padding: 0.8em 1.5em;
+  border: 2px solid black;
+  border-radius: 1.5em;
+  background-color: rgb(252, 255, 94);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  box-shadow: 0 2px;
+  cursor: pointer;
+  margin: 0.7rem 0 0 0;
+  transition: transform 0.2s;
+}
+
+/* Animación / BOTÓN NEW GAME */
+#newGameBtn:hover {
+  background-color: rgb(255, 153, 57);
+  transform: scale(1.1);
+}
+
+/* ////////////////////////////////////////// */
+
+/* Diseño h1 */
+
+.results-card h1 {
+  font-family: 'Press Start 2P', system-ui;
+  text-align: left;
+  font-size: 1.5rem;
+}
