@@ -3,8 +3,6 @@
 // Variable con la dirección de la URL de questions.html
 const urlQuiz = '/questionsCopy.html';
 
-// // Recuperamos el id del formulario donde el usuario mete su nombre y le añadimos un evento para prevenir fallos. Luego cogemos el input que se encuentra dentro del formulario con "playerForm.querySelector('input')" y recogemos el valor introducido y lo asignamos a la variable playerName. Después nos aseguramos de que si el playerName esta vacío (!), haga return para que el usuario rellene el campo y si el campo está rellenado guardamos el valor "playerName" en el local storage para despues redirigir al usuario a questions.html.
-
 // Formulario de inicio de juego y elemento para mensajes de validación
 
 // Referencia al formulario y al input de nombre
@@ -112,30 +110,32 @@ if (sessions.length && gamesList) {
 
 const ctx = document.getElementById('scoreChart').getContext('2d');
 
-// 1️⃣ Totales por jugador
+// Totales por jugador
 const totals = {};
 sessions.forEach((s) => {
   totals[s.playerId] = (totals[s.playerId] || 0) + s.score;
 });
 
-// 2️⃣ Prepara y ordena
+// Prepara, ordena y recorta a 5
 const entries = players
   .map((p) => ({ name: p.name, score: totals[p.id] || 0 }))
-  .sort((a, b) => b.score - a.score);
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 5); // ← sólo los top 5
 
 const labels = entries.map((e) => e.name);
 const data = entries.map((e) => e.score);
 
-// 3️⃣ Colores de cada barra (fondo y borde)
+// Colores de cada barra (fondo y borde)
 const backgroundColors = [
-  '#EF4786', // Jugador 1
-  '#7EDACA', // Jugador 2
-  '#FCE74A', // Jugador 3
-  '#FF8BBD', // Jugador 4
+  '#EF4786',
+  '#7EDACA',
+  '#FCE74A',
+  '#FF8BBD',
+  '#66B2FF',
 ];
-const borderColors = backgroundColors.map((c) => c); // mismo color, o define otro array manual
+const borderColors = backgroundColors;
 
-// 4️⃣ Crea el gráfico vertical
+// Crea el gráfico vertical
 new Chart(ctx, {
   type: 'bar',
   data: {
@@ -161,7 +161,7 @@ new Chart(ctx, {
       legend: { display: false },
       title: {
         display: true,
-        text: '🏆 Clasificación general',
+        text: '🏆 Clasificación general (Top 5)',
         font: { size: 18 },
       },
       tooltip: {
@@ -172,78 +172,6 @@ new Chart(ctx, {
     },
   },
 });
-
-////////////////////////////////
-////////////////////////////////
-////////////////////////////////
-////////////////////////////////
-////////////////////////////////
-
-// // 2️⃣ Construye el gráfico con las correcciones:
-// new Chart(ctx, {
-//   type: 'bar',
-//   data: {
-//     labels, // tu array de etiquetas
-//     datasets: [
-//       {
-//         label: 'Puntuación total',
-//         data, // tu array de datos
-//         backgroundColor: labels.map(() => 'rgba(170, 241, 241, 0.7)'), // ← paréntesis de cierre
-//         borderColor: labels.map(() => 'rgba(0, 100, 100, 0.9)'), // ← paréntesis de cierre
-//         borderWidth: 1,
-//       },
-//     ],
-//   },
-//   options: {
-//     scales: {
-//       // ← debe ser "scales"
-//       y: {
-//         beginAtZero: true,
-//         max: 10, // opcional: límite superior
-//       },
-//     },
-//   },
-// });
-
-// if (users.length > 0 && gamesList) {
-//   users.forEach((user) => {
-//     const li = document.createElement('li');
-//     li.innerText = `${user.name} - ${user.playerScore}/10 - ${new Date(
-//       user.gameEndDate || user.gameStartDate,
-//     ).toLocaleString()}`;
-//     gamesList.appendChild(li);
-//   });
-// }
-
-// // Mostrar gráfico si hay datos y si existe el canvas
-// const scoreChartCanvas = document.getElementById('scoreChart');
-
-// if (scoreChartCanvas && users.length > 0) {
-//   const ctx = scoreChartCanvas.getContext('2d');
-//   const labels = users.map((u) => u.name);
-//   const data = users.map((u) => u.playerScore || 0);
-
-//   new Chart(ctx, {
-//     type: 'bar',
-//     data: {
-//       labels,
-//       datasets: [
-//         {
-//           label: 'Puntuación',
-//           data,
-//           backgroundColor: 'rgba(170, 241, 241, 0.7)',
-//           borderColor: 'rgba(0, 100, 100, 0.9)',
-//           borderWidth: 1,
-//         },
-//       ],
-//     },
-//     options: {
-//       scales: {
-//         y: { beginAtZero: true, max: 10 },
-//       },
-//     },
-//   });
-// }
 
 ////////////////////////////////
 ////////////////////////////////
