@@ -50,7 +50,6 @@ playerForm.addEventListener('submit', (event) => {
 
 // Función para cambiar de URL sin dejar rastro en el historial
 const changeURL = (url) => {
-  // return window.location.href = url;
   return window.location.replace(url);
 };
 
