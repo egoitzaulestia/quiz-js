@@ -2,7 +2,7 @@
 
 // URLs
 const urlHome = '/homeCopy.html';
-const urlQuiz = '/questions.html';
+const urlQuiz = '/questionsCopy.html';
 
 // Referencias al DOM
 const goHomeBtn = document.getElementById('goHomeBtn');
@@ -16,15 +16,12 @@ const changeURL = (url) => {
 };
 
 // Listeners de botones:
-
 goHomeBtn.addEventListener('click', () => {
-  // localStorage.removeItem('currentPlayerId');
   changeURL(urlHome);
 });
 
 newGameBtn.addEventListener('click', () => {
   changeURL(urlQuiz);
-  // document.location.href = '/home.html';
 });
 
 // Cargar arrays desde localStorage
@@ -49,32 +46,43 @@ const lastSession = mySessions.length
 // Mostrar en pantall
 if (lastSession) {
   userNameh1.innerHTML = `<span class="player-name">${playerName}</span> ha conseguido una puntuación de:`;
-
   userResultP.innerText = `${lastSession.score}`;
 } else {
   userNameh1.innerText = `${playerName}`;
   userResultP.innerText = 'No se encontró ninguna partida';
 }
 
-// // Leer del local storage el nombre de usuario y el score del ultimo jugador del array de USERS del localStorage:
+// Referencia a la tabla (ya debe existir en el DOM)
+const rankingTable = document.querySelector('#rankingCard table');
 
-// //recuperamos del local storage el array 'users' y como nos devuelve un string, lo pasamos a objeto con JSON.parse y lo metemos en una variable.
+if (players.length > 0) {
+  // Generar array de estadísticas por jugador
+  const stats = players.map((p) => {
+    const pSes = sessions.filter((s) => s.playerId === p.id);
+    const totalPuntos = pSes.reduce((sum, s) => sum + s.score, 0);
+    const partidas = pSes.length;
 
-// const users = JSON.parse(localStorage.getItem('users'));
+    // Reducir el nombre a los 3 primeros caracteres
+    const nombreCorto = p.name.slice(0, 3);
 
-// //recuperamos del DOM el ID del <p> 'userResult' donde insertaremos la puntuación del usuario y lo metemos en una variable.
+    return { id: p.id, name: nombreCorto, totalPuntos, partidas };
+  });
 
-// const userResultParagraph = document.getElementById('userResult');
+  // Ordenar por totalPuntos descendente
+  stats.sort((a, b) => b.totalPuntos - a.totalPuntos);
 
-// //recuperamos del DOM el ID del <h1> 'userNameh1' donde insertaremos la puntuación del usuario y lo metemos en una variable.
+  // Tomar sólo los top 10
+  const top10 = stats.slice(0, 10);
 
-// // Le decimos que si (if) users Y (&&) la longitud de users es mayor que 0, nos haga: primero, que nos coja el último usuario que ha jugado a nuestro juego con 'users[users.length - 1];'
-// // y lo meta en la variable 'currentUser'. Luego, le decimos que en las variables que hemos creado arriba 'userNameh1' y 'userResult' nos haga un innerText para meter los valores recogidos.
-
-// if (users && users.length > 0) {
-//   const currentUser = users[users.length - 1];
-//   userNameh1.innerText = `${currentUser.playerName} ha conseguido una puntuación de:`;
-//   userResultParagraph.innerText = `${currentUser.playerScore}/10`;
-// } else {
-//   userResultParagraph.innerText = 'No se encontraron resultados.';
-// }
+  // Añadir cada fila al <table>
+  top10.forEach((st, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${st.totalPuntos}</td>
+      <td>${st.name}</td>
+      <td>${st.partidas}</td>
+    `;
+    rankingTable.appendChild(tr);
+  });
+}

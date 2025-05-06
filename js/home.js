@@ -1,7 +1,7 @@
 // home.js
 
 // Variable con la dirección de la URL de questions.html
-const urlQuiz = '/questions.html';
+const urlQuiz = '/questionsCopy.html';
 
 // // Recuperamos el id del formulario donde el usuario mete su nombre y le añadimos un evento para prevenir fallos. Luego cogemos el input que se encuentra dentro del formulario con "playerForm.querySelector('input')" y recogemos el valor introducido y lo asignamos a la variable playerName. Después nos aseguramos de que si el playerName esta vacío (!), haga return para que el usuario rellene el campo y si el campo está rellenado guardamos el valor "playerName" en el local storage para despues redirigir al usuario a questions.html.
 
@@ -84,61 +84,94 @@ if (sessions.length && gamesList) {
   });
 }
 
-const ctx = document.getElementById('scoreChart').getContext('2d');
-
-const totals = {};
-sessions.forEach((s) => {
-  totals[s.playersId] = (totals[s.playerId] || 0) + s.score;
-});
-const labels = players.map((p) => p.name);
-const data = players.map((p) => totals[p.id] || 0);
-
-new Chart(ctx, {
-  type: 'line',
-  data: {
-    // asume sesiones ordenadas cronológicamente
-    labels: sessions.map((_, i) => `Game ${i + 1}`),
-    datasets: players.map((p) => ({
-      label: p.name,
-      data: sessions.filter((s) => s.playerId === p.id).map((s) => s.score),
-      fill: false,
-      tension: 0.3,
-    })),
-  },
-  options: {
-    scales: { y: { beginAtZero: true, max: 10 } },
-  },
-});
-
 // const ctx = document.getElementById('scoreChart').getContext('2d');
 
-// // 1️⃣ Ordena y coge sólo las primeras 5 sesiones
-// const recentSessions = sessions
-//   .slice() // clona para no mutar el original
-//   .sort((a, b) => new Date(a.start) - new Date(b.start)) // cronológico ascendente
-//   .slice(0, 5); // máximo 5 partidas
+// const totals = {};
+// sessions.forEach((s) => {
+//   totals[s.playersId] = (totals[s.playerId] || 0) + s.score;
+// });
+// const labels = players.map((p) => p.name);
+// const data = players.map((p) => totals[p.id] || 0);
 
-// // 2️⃣ Prepara las etiquetas (Game 1…Game N)
-// const labels = recentSessions.map((_, i) => `Game ${i + 1}`);
-
-// // 3️⃣ Para cada jugador, extrae su puntuación en esas 5 sesiones
-// const datasets = players.map((p) => ({
-//   label: p.name,
-//   data: recentSessions.filter((s) => s.playerId === p.id).map((s) => s.score),
-//   fill: false,
-//   tension: 0.3,
-// }));
-
-// // 4️⃣ Crea el gráfico
 // new Chart(ctx, {
 //   type: 'line',
-//   data: { labels, datasets },
+//   data: {
+//     // asume sesiones ordenadas cronológicamente
+//     labels: sessions.map((_, i) => `Game ${i + 1}`),
+//     datasets: players.map((p) => ({
+//       label: p.name,
+//       data: sessions.filter((s) => s.playerId === p.id).map((s) => s.score),
+//       fill: false,
+//       tension: 0.3,
+//     })),
+//   },
 //   options: {
-//     scales: {
-//       y: { beginAtZero: true, max: 10 },
-//     },
+//     scales: { y: { beginAtZero: true, max: 10 } },
 //   },
 // });
+
+const ctx = document.getElementById('scoreChart').getContext('2d');
+
+// 1️⃣ Totales por jugador
+const totals = {};
+sessions.forEach((s) => {
+  totals[s.playerId] = (totals[s.playerId] || 0) + s.score;
+});
+
+// 2️⃣ Prepara y ordena
+const entries = players
+  .map((p) => ({ name: p.name, score: totals[p.id] || 0 }))
+  .sort((a, b) => b.score - a.score);
+
+const labels = entries.map((e) => e.name);
+const data = entries.map((e) => e.score);
+
+// 3️⃣ Colores de cada barra (fondo y borde)
+const backgroundColors = [
+  '#EF4786', // Jugador 1
+  '#7EDACA', // Jugador 2
+  '#FCE74A', // Jugador 3
+  '#FF8BBD', // Jugador 4
+];
+const borderColors = backgroundColors.map((c) => c); // mismo color, o define otro array manual
+
+// 4️⃣ Crea el gráfico vertical
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels,
+    datasets: [
+      {
+        label: 'Puntuación total',
+        data,
+        backgroundColor: backgroundColors.slice(0, labels.length),
+        borderColor: borderColors.slice(0, labels.length),
+        borderWidth: 2,
+      },
+    ],
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: Math.max(...data, 10),
+      },
+    },
+    plugins: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: '🏆 Clasificación general',
+        font: { size: 18 },
+      },
+      tooltip: {
+        callbacks: {
+          label: (ctx) => ` ${ctx.parsed.y} pt${ctx.parsed.y === 1 ? '' : 's'}`,
+        },
+      },
+    },
+  },
+});
 
 ////////////////////////////////
 ////////////////////////////////

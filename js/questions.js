@@ -107,7 +107,12 @@ const showQuestion = (item) => {
     }
 
     // Al hacer clic, procesar la selección
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (e) => {
+      const btn = e.currentTarget;
+
+      // Marcamos este botón como “seleccionado”
+      btn.classList.add('selected');
+
       selectAnswer(divAnswers, answer.isCorrect);
     });
 
@@ -180,7 +185,7 @@ nextButton.addEventListener('click', () => {
 
 // Esto hace que al clicar en el botón "ver resultados" se redirija al usuario a la página html results.
 showResultsBtn.addEventListener('click', () => {
-  window.location.href = '/results.html';
+  window.location.href = '/resultsCopy.html';
 });
 
 // Esto hace que al clicar en el botón "volver a empezar" se redirija al usuario a la página html home.
