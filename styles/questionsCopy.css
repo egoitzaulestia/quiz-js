@@ -160,12 +160,12 @@ main {
 }
 
 .color-correct {
-  background-color: rgb(0, 255, 72);
+  background-color: #00ff48;
   color: black;
 }
 
 .color-wrong {
-  background-color: rgb(255, 0, 0);
+  background-color: rgb(255, 255, 255);
   color: black;
 }
 
