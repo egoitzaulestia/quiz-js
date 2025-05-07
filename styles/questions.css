@@ -84,15 +84,16 @@ main {
 
 /*DISEÑO DIV DE TODOS LOS BOTONES - INFERIORES*/
 
-.BtnsDiv {
+.btns-div {
   display: flex;
-  align-items: center;
+  align-items: end;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: end;
   flex-wrap: wrap;
+  border-radius: 1.5em;
 }
 
-.btns-div {
+.btns-div-final {
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -163,7 +164,7 @@ main {
 }
 
 .color-wrong {
-  background-color: rgb(255, 83, 83);
+  background-color: rgb(255, 62, 62);
   /* background-color: #fff; */
   color: black;
 }

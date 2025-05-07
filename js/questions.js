@@ -64,6 +64,7 @@ const questionCardHtml = document.getElementById('questionCard');
 const nextButton = document.getElementById('nextBtn');
 const goHomeBtn = document.getElementById('goHomeBtn');
 const showResultsBtn = document.getElementById('showResultsBtn');
+const btnsDiv = document.getElementById('btnsDiv');
 
 // Función para inciar el quiz
 const startQuiz = () => {
@@ -159,6 +160,8 @@ const selectAnswer = (answerContainer, isCorrect) => {
   if (currentQuestionIndex < formattedQuestions.length - 1) {
     nextButton.classList.remove('hide');
   } else {
+    btnsDiv.classList.remove('btns-div');
+    btnsDiv.classList.add('btns-div-final');
     goHomeBtn.classList.remove('hide');
     showResultsBtn.classList.remove('hide');
 
