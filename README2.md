@@ -59,12 +59,12 @@ El objetivo es evaluar conocimientos de forma entretenida y registrar el rendimi
 
 ## Mockups del diseño
 
-**Versión Escritorio**
+**Versión Escritorio:**
 
 ![Versión Escritorio](./capturas/Mockup%20PC.png)
 
 
-**Versión Móvil**
+**Versión Móvil:**
 
 ![Versión Escritorio](./capturas/Mockup%20Movil.png)
 
