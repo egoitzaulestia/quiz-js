@@ -1,4 +1,4 @@
-![Juegilandia](./assets/juaguilandia.png)
+![Juegilandia](./images/juaguilandia.png)
 
 # Juegilandia Quiz
 
@@ -52,11 +52,11 @@ El objetivo es evaluar conocimientos de forma entretenida y registrar el rendimi
 
 **Versión Escritorio:**
 
-![Versión Escritorio](./capturas/Mockup%20PC.png)
+![Versión Escritorio](./images/Mockup%20PC.png)
 
 **Versión Móvil:**
 
-![Versión Escritorio](./capturas/Mockup%20Movil.png)
+![Versión Escritorio](./images/Mockup%20Movil.png)
 
 ## Autores:
 
