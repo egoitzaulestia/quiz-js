@@ -85,9 +85,6 @@ const startQuiz = () => {
 
 // Función para mostrar una pregunta y sus opciones
 const showQuestion = (item) => {
-  // Limpiar cualquier contenido previo
-  // questionCardHtml.innerHTML = ''; // Limpiar
-
   // Crear y añadir el título de la pregunta
   const h2 = document.createElement('h2');
   h2.innerText = item.question;
@@ -126,7 +123,6 @@ const showQuestion = (item) => {
 // Función para pasas a la siguiente pregunta tras resetear el estado
 const setNextQuestion = () => {
   resetState();
-  // nextButton.classList.add('hide');
   showQuestion(formattedQuestions[currentQuestionIndex]);
 };
 
