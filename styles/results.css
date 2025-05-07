@@ -1,69 +1,200 @@
-/* Mobile First (pantallas pequeñas por defecto) */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f3f3f3;
+/* reseteo */
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: 'Press Start 2P', system-ui;
 }
 
-/* @media para pantallas grandes */
-@media (min-width: 768px) {
-  .home-card {
-    padding: 40px;
-    font-size: 1.2rem;
+/* imagen de fondo (tiene que estar en la carpeta de estilos) */
+
+body {
+  background-image: url(/assets/arcade.png);
+}
+
+main {
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ////////////////////////////////////////// */
+
+/* Diseño contenedor card Resultados */
+
+.results-card {
+  width: 28rem;
+  background-color: #ffffff;
+  padding: 2rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  overflow: hidden;
+  height: auto;
+  letter-spacing: 1px;
+  box-shadow: 0 4px;
+}
+
+/* Diseño h1 */
+
+.results-card h1 {
+  font-family: 'Press Start 2P', system-ui;
+  text-align: left;
+  font-size: 1.5rem;
+}
+
+/* Diseño PLAYER NAME */
+
+.player-name {
+  color: #e91e63;
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+/* Diseño PUNTUACIÓN OBTENIDA card */
+
+@keyframes popIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+    /* transition-duration: 700ms; */
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+    /* transition-duration: 700ms; */
+  }
+  100% {
+    transform: scale(1);
+    /* transition-duration: 700ms; */
   }
 }
 
-.hide {
-  display: none;
-}
-
-/* Diseño card */
-
-.results-card {
-  border: 1px solid black;
-  border-radius: 8px;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
+#userResult {
+  background: linear-gradient(270deg, #ff8a00, #e52e71, #9b00ff);
+  margin: 1rem 0;
+  color: white;
+  padding: 1rem;
+  border-radius: 15px;
+  font-size: 3rem;
+  font-weight: bold;
+  animation: popIn 0.5s ease-out;
   text-align: center;
-  background-color: white;
-  box-shadow: 2px 2px 6px rgba(24, 24, 24, 0.25);
 }
 
-/* Diseño botón */
+/*DISEÑO DIV DE TODOS LOS BOTONES - INFERIORES*/
+
+.BtnsDiv {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/*DISEÑO DE TODOS LOS BOTONES - INFERIORES*/
 
 .logic-button {
-  background-color: rgb(170, 241, 241);
-  padding: 10px 20px;
-  border-radius: 6px;
-  border: none;
-  font-size: 1rem;
+  padding: 0.8em 1.5em;
+  border: 2px solid black;
+  border-radius: 1.5em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  box-shadow: 0 2px;
   cursor: pointer;
+  margin: 0.7rem 0 0 0;
 }
 
-/* Animación / hover botón */
-.logic-button:hover {
-  background-color: rgb(132, 218, 218);
+/*DISEÑO BOTÓN GO HOME */
+
+#goHomeBtn {
+  background-color: rgb(140 174 196 / 30%);
+  transition: transform 0.2s;
 }
 
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
+/* Animación / BOTÓN GO HOME */
+#goHomeBtn:hover {
+  background-color: rgb(163 252 254);
+  transform: scale(1.1);
 }
 
-td,
-th {
-  border: 1px solid #dddddd;
+/*DISEÑO BOTÓN NEW GAME */
+
+#newGameBtn {
+  padding: 0.8em 1.5em;
+  border: 2px solid black;
+  border-radius: 1.5em;
+  background-color: rgb(252, 255, 94);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  box-shadow: 0 2px;
+  cursor: pointer;
+  margin: 0.7rem 0 0 0;
+  transition: transform 0.2s;
+}
+
+/* Animación / BOTÓN NEW GAME */
+#newGameBtn:hover {
+  background-color: rgb(255, 153, 57);
+  transform: scale(1.1);
+}
+
+/* ////////////////////////////////////////// */
+
+/* Diseño h1 */
+
+.results-card h1 {
+  font-family: 'Press Start 2P', system-ui;
   text-align: left;
-  padding: 8px;
+  font-size: 1.5rem;
 }
 
-tr:nth-child(even) {
-  background-color: #dddddd;
+/* Para que la tabla ocupe todo el ancho del card */
+#rankingCard table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* columnas de ancho equilibrado */
+  font-family: 'Press Start 2P', system-ui;
 }
+
+/* Cabecera y celdas: alineación a la derecha */
+#rankingCard th,
+#rankingCard td {
+  text-align: center;
+  padding: 0.5em 1em;
+}
+
+/* Centrar la primera columna (ranking) */
+/* #rankingCard th:first-child,
+#rankingCard td:first-child {
+  text-align: center;
+} */
+
+/* Separadores horizontales */
+#rankingCard th {
+  border-bottom: 2px solid #000;
+}
+#rankingCard td {
+  border-bottom: 1px solid #ccc;
+}
+
+/* Equilibrar anchos: */
+/* 
+#rankingCard col:nth-child(1) {
+  width: 15%;
+}
+#rankingCard col:nth-child(2) {
+  width: 25%;
+}
+#rankingCard col:nth-child(3) {
+  width: 30%;
+}
+#rankingCard col:nth-child(4) {
+  width: 30%;
+} */

@@ -1,8 +1,8 @@
 // results.js
 
 // URLs
-const urlHome = '/homeCopy.html';
-const urlQuiz = '/questionsCopy.html';
+const urlHome = '/home.html';
+const urlQuiz = '/questions.html';
 
 // Referencias al DOM
 const goHomeBtn = document.getElementById('goHomeBtn');

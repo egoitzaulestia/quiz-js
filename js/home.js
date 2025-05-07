@@ -1,7 +1,7 @@
 // home.js
 
 // Variable con la dirección de la URL de questions.html
-const urlQuiz = '/questionsCopy.html';
+const urlQuiz = '/questions.html';
 
 // Formulario de inicio de juego y elemento para mensajes de validación
 

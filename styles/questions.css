@@ -1,127 +1,193 @@
-/* Mobile First (pantallas pequeñas por defecto) */
+/* reseteo */
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: 'Press Start 2P', system-ui;
+}
+
+/* imagen de fondo (tiene que estar en la carpeta de estilos) */
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  background-image: url(/assets/arcade.png);
+}
+
+main {
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
-  background-color: #f3f3f3;
+  justify-content: center;
 }
 
-/* @media para pantallas grandes */
-@media (min-width: 768px) {
-  .questions-card {
-    padding: 40px;
-    font-size: 1.2rem;
-  }
-}
+/* ////////////////////////////////////////// */
 
-/* Diseño card */
+/* Diseño contenedor card */
 
 .questions-card {
-  border: 1px solid black;
-  border-radius: 8px;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  background-color: white;
-  box-shadow: 2px 2px 6px rgba(24, 24, 24, 0.25);
+  width: 28rem;
+  background-color: #ffffff;
+  padding: 2rem;
+  border: 2px solid black;
+  border-radius: 16px;
+  overflow: hidden;
+  height: auto;
+  letter-spacing: 1px;
+  box-shadow: 0 4px;
 }
 
-/* Diseño del Div de cards respuestas */
+/* Diseño PREGUNTAS card */
 
-#divOpciones {
+.questions-card h2 {
+  font-family: 'Press Start 2P', system-ui;
+  text-align: left;
+  font-size: 2rem;
+}
+
+/* Diseño DIV - RESPUESTAS card */
+
+#answerButtons {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Diseño TODAS LAS RESPUESTAS card */
+
+.option {
+  width: 100%;
+  padding: 0.8em 1.5em;
+  background-color: #5ed8f03b;
+  font-size: 1.25rem;
+  border-radius: 0.5rem;
+  margin: 0.7rem 0 0 0;
+  letter-spacing: 1px;
+  font-weight: bold;
+  box-shadow: 0 2px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+/* Animación / hover botón */
+
+.option:hover {
+  transform: scale(1.05);
+  background-color: #26d9fdb3;
+}
+
+/*DISEÑO DIV DE TODOS LOS BOTONES - INFERIORES*/
+
+.BtnsDiv {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 
-/* Diseño cards respuestas */
-
-.opcion {
-  border: 1px solid black;
-  border-radius: 8px;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  background-color: white;
+.btns-div {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-radius: 1.5em;
 }
 
-/* Animación / hover opciones */
-.opcion:hover {
-  background-color: rgb(254, 255, 175);
+/*DISEÑO DE TODOS LOS BOTONES - INFERIORES*/
+
+.logic-button {
+  padding: 0.8em 1.5em;
+  border: 2px solid black;
+  border-radius: 1.5em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  box-shadow: 0 2px;
+  cursor: pointer;
+  margin: 0.7rem 0 0 0;
 }
 
-/* //////////////// TUTORIAL ////////////////// */
+/*DISEÑO BOTÓN NEXT*/
+
+#nextBtn {
+  background-color: rgb(255 168 203);
+  transition: transform 0.2s;
+}
+
+/*DISEÑO BOTÓN GO HOME*/
+
+#goHomeBtn {
+  background-color: rgb(140 174 196 / 30%);
+  transition: transform 0.2s;
+}
+
+/*DISEÑO BOTÓN SHOW RESULTS*/
+#showResultsBtn {
+  background-color: rgb(140 174 196 / 30%);
+  transition: transform 0.2s;
+}
+
+/* Animación / BOTÓN NEXT */
+#nextBtn:hover {
+  background-color: rgb(252, 255, 94);
+  transform: scale(1.1);
+}
+
+/* Animación / BOTÓN GO HOME */
+#goHomeBtn:hover {
+  background-color: rgb(163 252 254);
+  transform: scale(1.1);
+}
+
+/* Animación / BOTÓN SHOW RESULTS */
+#showResultsBtn:hover {
+  background-color: rgb(110 251 97);
+  transform: scale(1.1);
+}
 
 .hide {
   display: none;
 }
 
-.questions-card {
-  border: 1px solid black;
-  border-radius: 8px;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  background-color: white;
-  box-shadow: 2px 2px 6px rgba(24, 24, 24, 0.25);
-}
-
-.answers {
-  border: 1px solid black;
-  border-radius: 8px;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  background-color: white;
-  box-shadow: 2px 2px 6px rgba(24, 24, 24, 0.25);
-}
-
-.option {
-  border: 1px solid black;
-  border-radius: 8px;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  background-color: white;
-  /* display: flex;
-  justify-content: center; */
-}
-
-/* Animación / hover opciones */
-.option:hover {
-  background-color: rgb(254, 255, 175);
-}
-
-/* Diseño botón */
-
-.logic-button {
-  background-color: rgb(170, 241, 241);
-  padding: 10px 20px;
-  border-radius: 6px;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-/* Animación / hover botón */
-.logic-button:hover {
-  background-color: rgb(132, 218, 218);
-}
-
 .color-correct {
   background-color: rgb(0, 255, 72);
+  color: black;
 }
 
 .color-wrong {
-  background-color: rgb(255, 0, 0);
+  background-color: rgb(255, 83, 83);
+  /* background-color: #fff; */
+  color: black;
+}
+
+/* Hacer que los botones deshabilitados no reaccionen al hover */
+.option:disabled {
+  pointer-events: none; /* ni click ni hover */
+  opacity: 0.75;
+  transition-duration: 500ms;
+  transform: scale(0.89);
+  border: 2px solid black;
+}
+
+.option:disabled:hover {
+  transform: none;
+  background-color: inherit;
+}
+
+.option.selected {
+  transition-duration: 700ms;
+  transform: scale(1.1);
+  margin-top: 21px;
+  margin-bottom: 8px;
+  border: 3px solid black;
+  box-shadow: 0 3px;
+  opacity: 1;
 }

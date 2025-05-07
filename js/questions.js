@@ -185,12 +185,12 @@ nextButton.addEventListener('click', () => {
 
 // Esto hace que al clicar en el botón "ver resultados" se redirija al usuario a la página html results.
 showResultsBtn.addEventListener('click', () => {
-  window.location.href = '/resultsCopy.html';
+  window.location.href = '/results.html';
 });
 
 // Esto hace que al clicar en el botón "volver a empezar" se redirija al usuario a la página html home.
 goHomeBtn.addEventListener('click', () => {
-  window.location.href = '/homeCopy.html';
+  window.location.href = '/home.html';
 });
 
 getQuestions()
